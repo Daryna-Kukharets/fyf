@@ -1,0 +1,45 @@
+@use '../../styles/utils' as *;
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: $white-color;
+  overflow: hidden;
+  z-index: 100;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform $effect-duration ease, opacity $effect-duration ease;
+
+  @include on-tablet {
+    display: none;
+  }
+
+  &--open {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+
+  &__icon {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+  }
+
+  &__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+}

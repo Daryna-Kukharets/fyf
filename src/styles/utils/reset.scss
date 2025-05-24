@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #0F0E0E;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  scroll-behavior: smooth;
+  min-width: 320px;
+  font-family: Helvetica, sans-serif;
+  color: #0F0E0E;
+}

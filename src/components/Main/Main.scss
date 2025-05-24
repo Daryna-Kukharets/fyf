@@ -1,0 +1,97 @@
+@use '../../styles/utils' as *;
+
+.main {
+  padding-bottom: 200px;
+  width: 100%;
+
+  @include on-tablet {
+    padding-bottom: 0;
+    margin-bottom: 32px;
+  }
+
+  @include on-desktop {
+    max-width: 1500px;
+  }
+
+  &__title {
+    font-family: "Lora", serif;
+    font-weight: 400;
+    font-size: 25px;
+    text-align: center;
+    
+    @include container;
+
+    @include on-tablet {
+      font-size: 70px;
+    }
+
+    @include on-desktop {
+      font-size: 80px;
+    }
+  }
+
+  &__image-box {
+    position: relative;
+  }
+
+  &__img {
+    display: block;
+    margin: 50px auto 0;
+    width: 100%;
+
+    @include on-tablet {
+      width: 80%;
+      margin: 40px auto 0;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: absolute;
+    right: 16px;
+    bottom: -150px;
+
+    @include on-tablet {
+      bottom: 0;
+      right: 32px;
+    }
+  }
+
+  &__button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: $yellow-color;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include on-tablet {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  &__icon-calendar {
+    width: 24px;
+    height: 24px;
+
+    @include on-tablet {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__icon-plus {
+    width: 16px;
+    height: 16px;
+
+    @include on-tablet {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
