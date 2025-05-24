@@ -9,6 +9,7 @@ export const router = createBrowserRouter([
    {
     path: '/',
     element: <App />,
+    errorElement: <p>Not found</p>,
     children: [
       {
         index: true,
@@ -26,10 +27,10 @@ export const router = createBrowserRouter([
         path: 'reviews',
         element: <Reviews />,
       },
-      {
-        path: '*',
-        element: <p>Not found</p>,
-      },
     ],
   },
-]);
+],
+  {
+   basename: '/fyf',
+  }
+);
