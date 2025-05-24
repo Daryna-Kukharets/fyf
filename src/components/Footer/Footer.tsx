@@ -6,7 +6,7 @@ export const Footer = () => (
       <div className="footer__block-first">
         <Link to="/">
           <img
-            src="./img/icons/logo-for-footer.svg"
+            src="img/icons/logo-for-footer.svg"
             alt="logo"
             className="footer__logo"
           />
@@ -48,7 +48,7 @@ export const Footer = () => (
               href="tel:+ 380 (95) 455 38 40"
               className="footer__nav-link footer__connection"
             >
-              <img src="./img/icons/phone.svg" alt="phone" />
+              <img src="img/icons/phone.svg" alt="phone" />
               {"+ 380 (95) 455 38 40"}
             </a>
           </li>
@@ -57,7 +57,7 @@ export const Footer = () => (
               href="mailto:findyourfun@gmail.com"
               className="footer__nav-link footer__connection"
             >
-              <img src="./img/icons/post.svg" alt="post" />
+              <img src="img/icons/post.svg" alt="post" />
               findyourfun@gmail.com
             </a>
           </li>

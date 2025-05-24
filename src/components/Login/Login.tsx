@@ -9,7 +9,7 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => (
   <div className={classNames("login", { "login--open": loginOpen })}>
     <div className="login__box">
       <button className="login__icon" onClick={toggleLogin}>
-        <img src="./img/icons/close.svg" alt="login close" />
+        <img src="img/icons/close.svg" alt="login close" />
       </button>
       <h1 className="login__title">Вхід</h1>
       <form action="#" method="get" className="login__form">
