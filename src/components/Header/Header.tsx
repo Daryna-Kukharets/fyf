@@ -46,10 +46,10 @@ export const Header = () => {
         <Link to="/">
           <picture>
             <source
-              srcSet="img/icons/logo-for-tablet.svg"
+              srcSet="./img/icons/logo-for-tablet.svg"
               media="(min-width: 1024px)"
             />
-            <img src="img/icons/logo-for-mobile.svg" alt="logo" />
+            <img src="./img/icons/logo-for-mobile.svg" alt="logo" />
           </picture>
         </Link>
 
@@ -71,11 +71,15 @@ export const Header = () => {
         </div>
         <div className="header__icons">
           <button className="header__icon" onClick={toggleMenu}>
-            <img src="img/icons/menu.svg" alt="menu" className="header__menu" />
+            <img
+              src="./img/icons/menu.svg"
+              alt="menu"
+              className="header__menu"
+            />
           </button>
           <button className="header__icon" onClick={toggleLogin}>
             <img
-              src="img/icons/account.svg"
+              src="./img/icons/account.svg"
               alt="account"
               className="header__account"
             />

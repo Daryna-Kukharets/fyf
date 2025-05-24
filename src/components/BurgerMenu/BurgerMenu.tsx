@@ -10,7 +10,7 @@ type Props = {
 export const BurgerMenu: React.FC<Props> = ({ toggleMenu, menuOpen }) => (
   <div className={classNames("menu", { "menu--open": menuOpen })}>
     <button className="menu__icon" onClick={toggleMenu}>
-      <img src="img/icons/close.svg" alt="menu close" />
+      <img src="./img/icons/close.svg" alt="menu close" />
     </button>
     <div className="menu__nav-list">
       <NavLink to="/" className={getClassHeader} onClick={toggleMenu}>

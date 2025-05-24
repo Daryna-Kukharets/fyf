@@ -9,7 +9,7 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => (
   <div className={classNames("login", { "login--open": loginOpen })}>
     <div className="login__box">
       <button className="login__icon" onClick={toggleLogin}>
-        <img src="img/icons/close.svg" alt="login close" />
+        <img src="./img/icons/close.svg" alt="login close" />
       </button>
       <h1 className="login__title">Вхід</h1>
       <form action="#" method="get" className="login__form">
@@ -44,10 +44,13 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => (
             <input
               type="checkbox"
               name="checkbox"
-              id='input-checkbox'
+              id="input-checkbox"
               className="login__checkbox"
             />
-            <label htmlFor="input-checkbox" className="login__label login__label--s">
+            <label
+              htmlFor="input-checkbox"
+              className="login__label login__label--s"
+            >
               Запам'ятати мене
             </label>
           </div>
@@ -58,9 +61,7 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => (
         <button type="submit" className="login__button login__button--login">
           Увійти
         </button>
-        <p className="login__text">
-          Або
-        </p>
+        <p className="login__text">Або</p>
         <button className="login__button login__button--google">
           Увійти з Google
         </button>
