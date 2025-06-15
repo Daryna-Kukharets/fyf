@@ -15,7 +15,7 @@
     padding-top: 50px;
     display: flex;
     align-items: stretch;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
   &__block-wrapper {
@@ -42,19 +42,25 @@
       width: 250px;
       transform: rotate(-3deg);
       top: -170px;
-      left: -80px;
+      left: 0px;
     }
 
     &--2 {
       width: 345px;
-      right: -80px;
+      right: -200px;
       top: -100px;
     }
 
     &--3 {
       width: 180px;
       margin-top: 42px;
+      left: 100px;
     }
+  }
+
+  &__fyf {
+    position: relative;
+    left: 100px;
   }
 
   &__block-second {
