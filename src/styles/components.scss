@@ -1,5 +1,15 @@
 @use "../components/Header/Header";
+@use "../components/Navigation/Navigation";
 @use "../components/Main/Main";
+@use "../components/AboutUs/AboutUs";
+@use "../components/Filters/Filters";
+@use "../components/CustomSelect/CustomSelect";
+@use "../components/Activities/Activities";
+@use "../components/ActivityCard/ActivityCard";
+@use "../components/Reviews/Reviews";
+@use "../components/Stars/Stars";
+@use "../components/ReviewCard/ReviewCard";
 @use "../components/Footer/Footer";
-@use "../components/BurgerMenu/BurgerMenu";
-@use "../components/Login/Login";
+@use "../components/CalendarPicker/CalendarPicker";
+@use "../components/LocationPicker/LocationPicker";
+

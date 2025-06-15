@@ -1,0 +1,33 @@
+@use "../../styles/utils" as *;
+
+.nav {
+  &__list {
+    display: flex;
+
+    &--header {
+      gap: 48px;
+    }
+
+    &--footer {
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+
+  &__link {
+    font-size: 24px;
+    line-height: 100%;
+
+    &--header {
+      color: $grey-color;
+    }
+
+    &--footer {
+      color: #000;
+    }
+    
+    &--bold {
+      font-weight: 700;
+    }
+  }
+}

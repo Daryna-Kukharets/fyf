@@ -1,0 +1,18 @@
+@use "../../styles/utils" as *;
+
+.filters {
+  padding-top: 32px;
+  
+  &__sort-box {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__sort {
+    color: $grey-color;
+    padding: 16px 24px;
+    background-color: $light-grey-color;
+    border-radius: 12px;
+    font-size: 24px;
+  }
+}

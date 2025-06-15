@@ -1,89 +1,30 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { getClassHeader } from "../../utils/getLinkClass";
 import { useEffect, useState } from "react";
-import { BurgerMenu } from "../BurgerMenu/BurgerMenu";
-import { Login } from "../Login/Login";
+import { Navigation } from "../Navigation/Navigation";
 
 export const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const toggleLogin = () => {
-    setLoginOpen(!loginOpen);
-  };
-
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
-
-  useEffect(() => {
-    if (loginOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [loginOpen]);
-
   return (
-    <>
-      <header className="header">
-        <Link to="/">
-          <picture>
-            <source
-              srcSet="img/icons/logo-for-tablet.svg"
-              media="(min-width: 1024px)"
-            />
-            <img src="img/icons/logo-for-mobile.svg" alt="logo" />
-          </picture>
-        </Link>
-
-        <div className="header__nav-list">
-          <NavLink to="/" className={getClassHeader}>
-            Головна
-          </NavLink>
-          <NavLink to="/about-us" className={getClassHeader}>
-            Про нас
-          </NavLink>
-
-          <NavLink to="/activities" className={getClassHeader}>
-            Активності
-          </NavLink>
-
-          <NavLink to="/reviews" className={getClassHeader}>
-            Відгуки
-          </NavLink>
-        </div>
-        <div className="header__icons">
-          <button className="header__icon" onClick={toggleMenu}>
-            <img src="img/icons/menu.svg" alt="menu" className="header__menu" />
+    <header className="header">
+      <img
+        src="img/icons/logo.svg"
+        alt="logo"
+        className="header__logo"
+      />
+      <div className="header__block">
+          <Navigation
+          classForList={'nav__list--header'}
+          classForLink={'nav__link--header'}
+        />
+        <div className="header__buttons">
+          <button type="button" className="header__button header__button--regist">
+            Реєстрація
           </button>
-          <button className="header__icon" onClick={toggleLogin}>
-            <img
-              src="img/icons/account.svg"
-              alt="account"
-              className="header__account"
-            />
+          <button className="header__button header__button--login">
+            Вхід
           </button>
         </div>
-      </header>
-      <BurgerMenu toggleMenu={toggleMenu} menuOpen={menuOpen} />
-      <Login toggleLogin={toggleLogin} loginOpen={loginOpen} />
-    </>
+      </div>
+    </header>
   );
 };

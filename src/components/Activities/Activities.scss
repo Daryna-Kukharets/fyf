@@ -1,0 +1,13 @@
+@use "../../styles/utils" as *;
+
+.activities {
+  padding-top: 82px;
+
+  @include container;
+
+  &__title {
+    font-family: Lora, sans-serif;
+    font-weight: 400;
+    font-size: 64px;
+  }
+}

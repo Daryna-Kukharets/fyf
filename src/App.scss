@@ -5,20 +5,5 @@
   
   &__main {
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 95vh;
-    
-    @media (min-width: 1024px) {
-      min-height: auto;
-      align-items: normal;
-    }
-    
-    @media (min-width: 1440px) {
-      align-items: center;
-      width: 100%;
-     }
   }
 }

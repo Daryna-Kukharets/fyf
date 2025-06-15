@@ -4,66 +4,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 16px;
-  
+  padding-block: 32px;
+  max-height: 13vh;
+  box-sizing: border-box;
+
   @include container;
 
-  @include on-tablet {
-    padding-block: 26px;
-    margin-bottom: 48px;
-  }
-
-  &__nav-list {
-    display: none;
-
-    @include on-tablet {
-      display: flex;
-      gap: 56px;
-    }
-  }
-
-  &__nav-link {
-    font-size: 24px;
-    color: $header-text-color;
-
-    &--is-active {
-      font-weight: 700;
-      color: $black-color;
-    }
-  }
-
-  &__icons {
+  &__block {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 48px;
   }
 
-  &__icon {
-    border: none;
-    background-color: transparent;
-    padding: 0;
+  &__buttons {
     display: flex;
+    gap: 24px;
   }
 
-  &__menu {
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
+  &__button {
+    font-size: 24px;
+    line-height: 100%;
+    font-weight: 400;
+    padding: 16px 24px;
+    border-radius: 12px;
 
-    @include on-tablet {
-      display: none;
+    &--regist {
+      color: $white-color;
+      background-color: $button-blue-color;
     }
-  }
 
-  &__account {
-    width: 44px;
-    height: 44px;
-    box-sizing: border-box;
-    padding: 10px;
-    cursor: pointer;
-
-    @include on-tablet {
-      padding: 0;
+    &--login {
+      color: $dark-blue-color;
+      background-color: $light-grey-color;
     }
   }
 }

@@ -1,0 +1,68 @@
+@use "../../styles/utils" as *;
+
+.custom-select {
+  position: relative;
+
+  &__header {
+    color: $grey-color;
+    padding: 16px 56px 16px 24px;
+    background-color: $light-grey-color;
+    border-radius: 12px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all $effect-duration ease;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 24px;
+      width: 24px;
+      height: 24px;
+      background-image: url(img/icons/arrow-down.svg);
+      transition: transform $effect-duration ease;
+    }
+
+    &--rotated {
+      &::before {
+        transform: translateY(-50%) rotate(-180deg);
+      }
+    }
+
+    &--main {
+      background-color: $white-color;
+      font-size: 16px;
+      color: $black-color;
+      padding-left: 56px;
+    }
+  }
+
+  &__options {
+    margin-top: 8px;
+    position: absolute;
+    min-width: 100%;
+    max-width: max-content;
+    background-color: $white-color;
+    box-shadow: 2px 16px 19px 0px #00000017, 0px 0px 4px 0px #00000017;
+    z-index: 10;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px;
+    box-sizing: border-box;
+  }
+
+  &__option {
+    transition: all $effect-duration ease;
+    cursor: pointer;
+    font-size: 16px;
+    color: $select-grey-color;
+
+    &:hover {
+      color: $black-color;
+    }
+  }
+}

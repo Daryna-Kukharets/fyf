@@ -21,8 +21,16 @@ ul {
 }
 
 body {
-  scroll-behavior: smooth;
   min-width: 320px;
   font-family: Helvetica, sans-serif;
   color: #0F0E0E;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button {
+  border: none;
+  background-color: transparent;
 }
