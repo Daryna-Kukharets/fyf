@@ -1,7 +1,7 @@
 @use "../../styles/utils" as *;
 
 .aboutUs {
-  padding-top: 32px;
+  padding-top: 48px;
 
   @include container;
 
@@ -39,20 +39,17 @@
     box-sizing: border-box;
 
     &--1 {
-      width: 250px;
       transform: rotate(-3deg);
       top: -170px;
       left: 0px;
     }
 
     &--2 {
-      width: 345px;
       right: -200px;
       top: -100px;
     }
 
     &--3 {
-      width: 180px;
       margin-top: 42px;
       left: 100px;
     }
@@ -107,7 +104,7 @@
     padding: 16px 24px;
     position: absolute;
     bottom: 0;
-    left: 20%;
+    left: 40%;
   }
 
   &__button-link {

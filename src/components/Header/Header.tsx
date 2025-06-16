@@ -6,23 +6,25 @@ import { Navigation } from "../Navigation/Navigation";
 export const Header = () => {
   return (
     <header className="header">
-      <img
-        src="img/icons/logo.svg"
-        alt="logo"
-        className="header__logo"
-      />
-      <div className="header__block">
-          <Navigation
-          classForList={'nav__list--header'}
-          classForLink={'nav__link--header'}
+      <div className="header__box">
+        <img
+          src="img/icons/logo.svg"
+          alt="logo"
+          className="header__logo"
         />
-        <div className="header__buttons">
-          <button type="button" className="header__button header__button--regist">
-            Реєстрація
-          </button>
-          <button className="header__button header__button--login">
-            Вхід
-          </button>
+        <div className="header__block">
+            <Navigation
+            classForList={'nav__list--header'}
+            classForLink={'nav__link--header'}
+          />
+          <div className="header__buttons">
+            <button type="button" className="header__button header__button--regist">
+              Реєстрація
+            </button>
+            <button className="header__button header__button--login">
+              Вхід
+            </button>
+          </div>
         </div>
       </div>
     </header>

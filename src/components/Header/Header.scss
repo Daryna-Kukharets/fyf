@@ -1,14 +1,20 @@
 @use "../../styles/utils" as *;
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-block: 32px;
-  max-height: 13vh;
-  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  background-color: $white-color;
+  z-index: 10;
 
-  @include container;
+  &__box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 32px;
+    width: 100%;
+
+    @include container;
+  }
 
   &__block {
     display: flex;
@@ -34,7 +40,7 @@
     }
 
     &--login {
-      color: $dark-blue-color;
+      color: $grey-color;
       background-color: $light-grey-color;
     }
   }

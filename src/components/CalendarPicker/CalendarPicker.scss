@@ -123,7 +123,6 @@
         &::before {
           transform: rotate(-135deg);
         }
-
       }
       &--next {
         right: 40px;
@@ -133,10 +132,10 @@
           transform: rotate(45deg);
         }
       }
+    }
 
-      &__triangle {
-        display: none !important;
-      }
+    &__triangle {
+      display: none !important;
     }
   }
 }

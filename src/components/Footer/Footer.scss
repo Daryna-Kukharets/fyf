@@ -1,7 +1,7 @@
 @use "../../styles/utils" as *;
 
 .footer {
-  padding-block: 32px;
+  padding: 32px;
 
   &__box-bg {
     padding: 48px;
@@ -9,13 +9,14 @@
     border-radius: 12px;
     box-sizing: border-box;
 
-    @include container;
   }
 
   &__box {
     display: flex;
     gap: 48px;
     align-items: start;
+
+    @include container;
   }
 
   &__nav-box {

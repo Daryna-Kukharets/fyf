@@ -5,7 +5,8 @@
   border: 1px solid $dark-blue-color;
   border-radius: 12px;
   padding: 24px 32px;
-  width: 30%;
+  width: 448px;
+  box-sizing: border-box;
 
   &__title {
     font-weight: 700;

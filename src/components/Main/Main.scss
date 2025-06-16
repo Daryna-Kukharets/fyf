@@ -1,8 +1,6 @@
 @use "../../styles/utils" as *;
 
 .main {
-  min-height: 87vh;
-  max-height: max-content;
   box-sizing: border-box;
 
   &__box {

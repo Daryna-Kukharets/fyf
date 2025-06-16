@@ -20,7 +20,7 @@ export const Main = () => {
   };
 
   return (
-    <div className="main">
+    <div id="home" className="main">
       <div className="main__box">
         <div className="main__blocks">
           <div className="main__block-first">

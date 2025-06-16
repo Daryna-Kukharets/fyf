@@ -17,9 +17,19 @@
   &__link {
     font-size: 24px;
     line-height: 100%;
+    transition: color $effect-duration ease;
 
     &--header {
       color: $grey-color;
+
+      &:hover {
+        color: $dark-blue-color;
+      }
+
+      &.nav__link--active {
+        color: $dark-blue-color;
+        font-weight: 700;
+      }
     }
 
     &--footer {
