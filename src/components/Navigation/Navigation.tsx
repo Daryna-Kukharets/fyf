@@ -56,9 +56,10 @@ export const Navigation: React.FC<Props> = ({ classForList, classForLink }) => {
       },
       {
         rootMargin: "0px 0px -30% 0px",
-        threshold: 0.5,
+        threshold: 0.4,
       }
     );
+    
 
     const targets = links
       .map((link) => document.getElementById(link.id))
