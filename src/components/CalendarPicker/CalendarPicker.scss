@@ -2,27 +2,51 @@
 
 .calendar-picker {
   background-color: $white-color;
-  padding: 16px 24px 16px 56px;
   border-radius: 12px;
   position: relative;
-
+  
   &__label {
     font-size: 16px;
     color: $black-color;
+    padding: 16px 24px 16px 56px;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 24px;
+      width: 24px;
+      height: 24px;
+      background-image: url(/img/icons/arrow-down.svg);
+      transition: transform $effect-duration ease;
+    }
+
+    &--rotated {
+      &::before {
+        transform: translateY(-50%) rotate(-180deg);
+      }
+    }
   }
 
   .react-datepicker {
-    margin-top: 12px;
     background-color: $white-color;
     font-size: 16px;
     color: $number-day-color;
     display: inline-block;
     position: relative;
-    padding: 16px 24px;
     border-radius: 8px;
     box-shadow: 2px 16px 19px 0px #00000017;
     width: 327px;
     box-sizing: border-box;
+    padding: 16px 24px;
+    left: 55px;
+    top: -5px;
+
+    &-popper {
+      z-index: 1;
+    }
 
     &__header {
       background-color: transparent;
@@ -50,9 +74,10 @@
     }
 
     &__day--today {
-      border: 1px solid #fe7062;
+      border: 1px solid #fe7062 ;
       border-radius: 50%;
       font-weight: bold;
+      outline: none;
     }
 
     &__input-container {

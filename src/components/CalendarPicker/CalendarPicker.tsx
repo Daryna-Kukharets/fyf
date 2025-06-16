@@ -1,21 +1,24 @@
-import { offset } from '@floating-ui/react-dom';
+import { offset } from "@floating-ui/react-dom";
 import { format } from "date-fns";
 import { useRef, useState } from "react";
 import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
 
 export const CalendarPicker = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
   const datePickerRef = useRef<DatePicker | null>(null);
 
   const handleLabelClick = () => {
+    setIsOpen((prev) => !prev);
     datePickerRef.current?.setOpen(true);
   };
 
   return (
     <div className="calendar-picker">
       <div
-        className="calendar-picker__label"
+        className={`calendar-picker__label ${
+          isOpen ? "calendar-picker__label--rotated" : ""
+        }`}
         onClick={handleLabelClick}
         style={{ cursor: "pointer" }}
       >
@@ -25,7 +28,15 @@ export const CalendarPicker = () => {
       <DatePicker
         ref={datePickerRef}
         selected={selectedDate}
-        onChange={(date) => date && setSelectedDate(date)}
+        onChange={(date) => {
+          if (date) {
+            setSelectedDate(date);
+            setIsOpen(false);
+          }
+        }}
+        onClickOutside={() => setIsOpen(false)}
+        onCalendarClose={() => setIsOpen(false)}
+        onCalendarOpen={() => setIsOpen(true)}
         dateFormat="dd.MM.yyyy"
         calendarClassName="calendar-picker__calendar"
         popperPlacement="bottom-start"
