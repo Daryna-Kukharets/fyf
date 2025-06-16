@@ -12,6 +12,7 @@
     justify-content: space-between;
     padding-block: 32px;
     width: 100%;
+    box-sizing: border-box;
 
     @include container;
   }
