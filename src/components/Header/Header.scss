@@ -6,6 +6,10 @@
   background-color: $white-color;
   z-index: 10;
 
+  &__container {
+    @include container;
+  }
+
   &__box {
     display: flex;
     align-items: center;
@@ -14,13 +18,16 @@
     width: 100%;
     box-sizing: border-box;
 
-    @include container;
   }
 
   &__block {
-    display: flex;
-    align-items: center;
-    gap: 48px;
+    display: none;
+     
+    @include on-desktop {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+    }
   }
 
   &__buttons {
@@ -44,5 +51,20 @@
       color: $grey-color;
       background-color: $light-grey-color;
     }
+  }
+
+  &__menu-container {
+
+    @include on-desktop{
+      display: none;
+    }
+  }
+
+  &__scroll-progress {
+    position: fixed;
+    left: 0;
+    height: 2px;
+    background-color: $button-blue-color;
+    transition: width $effect-duration ease;
   }
 }

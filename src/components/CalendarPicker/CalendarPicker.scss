@@ -4,7 +4,7 @@
   background-color: $white-color;
   border-radius: 12px;
   position: relative;
-  
+
   &__label {
     font-size: 16px;
     color: $black-color;
@@ -74,7 +74,7 @@
     }
 
     &__day--today {
-      border: 1px solid #fe7062 ;
+      border: 1px solid #fe7062;
       border-radius: 50%;
       font-weight: bold;
       outline: none;
