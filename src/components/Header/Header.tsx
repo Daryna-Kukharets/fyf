@@ -1,5 +1,3 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { getClassHeader } from "../../utils/getLinkClass";
 import { useEffect, useState } from "react";
 import { Navigation } from "../Navigation/Navigation";
 import { BurgerMenu } from "../BurgerMenu/BurgerMenu";

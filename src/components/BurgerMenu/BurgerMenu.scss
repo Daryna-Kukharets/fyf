@@ -13,6 +13,8 @@
   opacity: 0;
   transition: transform $effect-duration ease, opacity $effect-duration ease;
 
+  @include container;
+  
   @include on-desktop {
     display: none;
   }

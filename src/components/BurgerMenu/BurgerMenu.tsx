@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { Navigation } from "../Navigation/Navigation";
 
 type Props = {
   toggleMenu: () => void;
@@ -14,6 +15,11 @@ export const BurgerMenu: React.FC<Props> = ({ toggleMenu, menuOpen }) => {
           <img src="img/icons/close.svg" alt="close" />
         </button>
       </header>
+       <Navigation
+          classForList={"nav__list--menu"}
+          classForLink={"nav__link--menu"}
+          onLinkClick={toggleMenu}
+        />
     </div>
   );
 };

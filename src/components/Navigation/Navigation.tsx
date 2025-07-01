@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 type Props = {
   classForList: string;
   classForLink: string;
+  onLinkClick?: () => void;
 };
 
 const HEADER_HEIGHT = 80; // Висота хедера в пікселях — змінюй під свій хедер
@@ -11,18 +12,22 @@ const scrollToWithOffset = (id: string, offset: number) => {
   const element = document.getElementById(id);
   if (!element) return;
 
-  const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+  const elementPosition =
+    element.getBoundingClientRect().top + window.pageYOffset;
   const offsetPosition = elementPosition - offset;
 
   window.scrollTo({ top: offsetPosition, behavior: "smooth" });
 };
 
-export const Navigation: React.FC<Props> = ({ classForList, classForLink }) => {
+export const Navigation: React.FC<Props> = ({
+  classForList,
+  classForLink,
+  onLinkClick,
+}) => {
   const [active, setActive] = useState(() => {
     const hash = window.location.hash.slice(1);
     return hash || "home";
   });
-  
 
   const links = [
     { id: "home", label: "Головна" },
@@ -59,7 +64,6 @@ export const Navigation: React.FC<Props> = ({ classForList, classForLink }) => {
         threshold: 0.4,
       }
     );
-    
 
     const targets = links
       .map((link) => document.getElementById(link.id))
@@ -79,6 +83,10 @@ export const Navigation: React.FC<Props> = ({ classForList, classForLink }) => {
     } else {
       history.replaceState(null, "", `${basePath || "/"}#${id}`);
       scrollToWithOffset(id, HEADER_HEIGHT);
+    }
+
+    if (onLinkClick) {
+      onLinkClick();
     }
   };
 

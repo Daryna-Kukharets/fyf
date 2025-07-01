@@ -1,12 +1,9 @@
 @use "../../styles/utils" as *;
 
 .activities {
-  padding-top: 104px;
+  padding-top: 32px;
   
   @include container;
-  @include on-desktop {
-    padding-top: 80px;
-  }
 
   &__title {
     font-family: Lora, sans-serif;
