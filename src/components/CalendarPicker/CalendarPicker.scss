@@ -6,10 +6,17 @@
   position: relative;
 
   &__label {
-    font-size: 16px;
+    font-size: 13px;
     color: $black-color;
-    padding: 16px 24px 16px 56px;
+    padding: 13px 13px 13px 46px;
     position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    
+    @include on-desktop {
+      font-size: 16px;
+      padding: 16px 24px 16px 56px;
+    }
 
     &::before {
       content: "";
@@ -30,6 +37,14 @@
     }
   }
 
+  &__wrapper {
+    width: 100%;
+  }
+
+  &__calendar {
+    width: 100%;
+  }
+
   .react-datepicker {
     background-color: $white-color;
     font-size: 16px;
@@ -38,14 +53,15 @@
     position: relative;
     border-radius: 8px;
     box-shadow: 2px 16px 19px 0px #00000017;
-    width: 327px;
     box-sizing: border-box;
     padding: 16px 24px;
-    left: 55px;
+    left: 0;
     top: -5px;
+  
 
     &-popper {
       z-index: 1;
+      width: 100%;
     }
 
     &__header {

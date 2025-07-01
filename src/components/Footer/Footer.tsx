@@ -5,7 +5,11 @@ export const Footer = () => {
     <div className="footer">
       <div className="footer__box-bg">
         <div className="footer__box">
-          <img src="img/icons/logo.svg" alt="logo" />
+          <img 
+            src="img/icons/logo.svg" 
+            alt="logo" 
+            className="footer__img"
+          />
           <div className="footer__nav-box">
             <div className="footer__block">
               <Navigation
@@ -39,7 +43,7 @@ export const Footer = () => {
                 </ul>
               </nav>
             </div>
-            <div className="footer__block">
+            <div className="footer__block footer__block--break">
               <nav className="footer__nav">
                 <ul className="nav__list nav__list--footer">
                   <li className="nav__nav-item">

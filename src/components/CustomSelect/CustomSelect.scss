@@ -2,16 +2,22 @@
 
 .custom-select {
   position: relative;
+  flex-shrink: 0;
 
   &__header {
     color: $grey-color;
     padding: 16px 56px 16px 24px;
     background-color: $light-grey-color;
     border-radius: 12px;
-    font-size: 24px;
+    font-size: 16px;
     cursor: pointer;
     transition: all $effect-duration ease;
     position: relative;
+    white-space: nowrap; 
+
+    @include on-desktop {
+      font-size: 24px;
+    }
 
     &::before {
       content: "";
@@ -33,17 +39,26 @@
 
     &--main {
       background-color: $white-color;
-      font-size: 16px;
+      font-size: 13px;
       color: $black-color;
-      padding-left: 56px;
+      padding: 13px 13px 13px 46px;
+      height: 40px;
+      box-sizing: border-box;
+      
+      @include on-desktop {
+        font-size: 16px;
+        padding-left: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 
   &__options {
     margin-top: 8px;
-    position: absolute;
+    position: fixed; 
     min-width: 100%;
-    max-width: max-content;
     background-color: $white-color;
     box-shadow: 2px 16px 19px 0px #00000017, 0px 0px 4px 0px #00000017;
     z-index: 10;
@@ -53,6 +68,7 @@
     gap: 16px;
     padding: 16px 24px;
     box-sizing: border-box;
+    max-width: 280px;
   }
 
   &__option {
@@ -60,6 +76,7 @@
     cursor: pointer;
     font-size: 16px;
     color: $select-grey-color;
+    white-space: nowrap; 
 
     &:hover {
       color: $black-color;

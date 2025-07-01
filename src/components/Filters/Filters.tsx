@@ -14,37 +14,37 @@ export const Filters: React.FC<Props> = ({ handleFilterBy, filter }) => {
   const dateOptions = getDateOptions();
   return (
     <article className="filters">
-      <div className="filters__sort-box">
-        <div className="filters__sort">Київ</div>
-        <CustomSelect
-          options={kyivDistricts}
-          onChange={handleFilterBy}
-          value={filter}
-        />
-
-        <CustomSelect
-          options={categories}
-          onChange={handleFilterBy}
-          value={filter}
-        />
-
-        <CustomSelect
-          options={dateOptions}
-          onChange={handleFilterBy}
-          value={filter}
-        />
-
-        <CustomSelect
-          options={forWho}
-          onChange={handleFilterBy}
-          value={filter}
-        />
-
-        <CustomSelect
-          options={regime}
-          onChange={handleFilterBy}
-          value={filter}
-        />
+      <div className="filters__wrapper">
+        <div className="filters">
+          <div className="filters__sort-box">
+            <div className="filters__sort">Київ</div>
+            <CustomSelect
+              options={kyivDistricts}
+              onChange={handleFilterBy}
+              value={filter}
+            />
+            <CustomSelect
+              options={categories}
+              onChange={handleFilterBy}
+              value={filter}
+            />
+            <CustomSelect
+              options={dateOptions}
+              onChange={handleFilterBy}
+              value={filter}
+            />
+            <CustomSelect
+              options={forWho}
+              onChange={handleFilterBy}
+              value={filter}
+            />
+            <CustomSelect
+              options={regime}
+              onChange={handleFilterBy}
+              value={filter}
+            />
+          </div>
+        </div>
       </div>
     </article>
   );

@@ -20,7 +20,7 @@ export const Main = () => {
   };
 
   return (
-    <div id="home" className="main">
+    <section id="home" className="main">
       <div className="main__box">
         <div className="main__blocks">
           <div className="main__block-first">
@@ -141,6 +141,6 @@ export const Main = () => {
           </svg>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

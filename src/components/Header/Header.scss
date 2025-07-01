@@ -4,7 +4,7 @@
   position: sticky;
   top: 0;
   background-color: $white-color;
-  z-index: 10;
+  z-index: 15;
 
   &__container {
     @include container;
@@ -14,19 +14,31 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: 32px;
     width: 100%;
     box-sizing: border-box;
+    padding-top: 34px;
+    padding-bottom: 10px;
 
+    @include on-desktop {
+      padding-block: 32px;
+    }
   }
 
   &__block {
     display: none;
-     
+
     @include on-desktop {
       display: flex;
       align-items: center;
       gap: 48px;
+    }
+  }
+
+  &__logo {
+    width: 87px;
+
+    @include on-desktop {
+      width: 130px;
     }
   }
 
@@ -53,9 +65,10 @@
     }
   }
 
-  &__menu-container {
-
-    @include on-desktop{
+  &__icons {
+    display: flex;
+    gap: 20px;
+    @include on-desktop {
       display: none;
     }
   }

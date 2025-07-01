@@ -10,14 +10,22 @@
 
     &--footer {
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
+      
+      @include on-desktop {
+        gap: 24px;
+      }
     }
   }
 
   &__link {
-    font-size: 24px;
+    font-size: 16px;
     line-height: 100%;
     transition: color $effect-duration ease;
+    
+    @include on-desktop {
+      font-size: 24px;
+    }
 
     &--header {
       color: $grey-color;
@@ -28,7 +36,6 @@
 
       &.nav__link--active {
         color: $dark-blue-color;
-        font-weight: 700;
       }
     }
 

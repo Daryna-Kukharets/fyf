@@ -3,7 +3,7 @@ import { Stars } from "../Stars/Stars";
 
 export const Reviews = () => {
   return (
-    <div id="reviews" className="reviews">
+    <section id="reviews" className="reviews">
       <h1 className="reviews__title">Відгуки користувачів</h1>
       <div className="reviews__stars">
         <Stars />
@@ -11,6 +11,7 @@ export const Reviews = () => {
       </div>
       <ReviewCard />
       <div className="reviews__buttons">
+        <div className="reviews__empty"></div>
         <button type="button" className="reviews__button">
           Переглянути всі відгуки
         </button>
@@ -29,6 +30,6 @@ export const Reviews = () => {
           </svg>
         </button>
       </div>
-    </div>
+    </section>
   );
 };

@@ -1,16 +1,25 @@
 @use "../../styles/utils" as *;
 
 .reviewCard {
-  margin-top: 32px;
+  margin-top: 16px;
   border: 1px solid $dark-blue-color;
   border-radius: 12px;
   padding: 24px 32px;
-  width: 448px;
+  width: 100%;
   box-sizing: border-box;
+  
+  @include on-desktop {
+    width: 448px;
+    margin-top: 32px;
+  }
 
   &__title {
     font-weight: 700;
-    font-size: 36px;
+    font-size: 24px;
+    
+    @include on-desktop {
+      font-size: 36px;
+    }
   }
 
   &__stars {
@@ -19,8 +28,12 @@
 
   &__name {
     font-weight: 700;
-    font-size: 24px;
+    font-size: 16px;
     padding-top: 24px;
+    
+    @include on-desktop {
+      font-size: 24px;
+    }
   }
 
   &__date {
@@ -30,8 +43,12 @@
   }
 
   &__text {
-    font-size: 16px;
+    font-size: 14px;
     padding-top: 16px;
     font-weight: 300;
+    
+    @include on-desktop {
+      font-size: 16px;
+    }
   }
 }

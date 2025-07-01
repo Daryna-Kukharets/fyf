@@ -1,11 +1,28 @@
 @use "../../styles/utils" as *;
 
 .filters {
-  padding-top: 32px;
-  
+  padding-top: 16px;
+  max-width: 100%;
+  position: relative;
+
+  @include on-desktop {
+    padding-top: 32px;
+  }
+
+  &__wrapper {
+    overflow-x: auto;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   &__sort-box {
     display: flex;
     gap: 16px;
+    min-width: max-content;
   }
 
   &__sort {
@@ -13,6 +30,11 @@
     padding: 16px 24px;
     background-color: $light-grey-color;
     border-radius: 12px;
-    font-size: 24px;
+    white-space: nowrap;
+    font-size: 16px;
+    
+    @include on-desktop {
+      font-size: 24px;
+    }
   }
 }

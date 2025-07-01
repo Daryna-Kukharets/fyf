@@ -1,14 +1,29 @@
 @use "../../styles/utils" as *;
 
 .activityCard {
-  margin-top: 32px;
+  margin-top: 16px;
   border: 1px solid $border-color;
-  width: min-content;
   border-radius: 12px;
   padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  
+  @include on-desktop {
+    margin-top: 32px;
+    width: 448px;
+  }
 
   &__img-box {
     position: relative;
+  }
+
+  &__img {
+    width: 100%; 
+    object-fit: cover;
+
+    @include on-desktop {
+      width: auto;
+    }
   }
 
   &__mate {

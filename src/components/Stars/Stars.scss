@@ -1,6 +1,18 @@
+@use "../../styles/utils" as *;
+
 .stars {
   &__container {
     display: flex;
     gap: 8px;
+  }
+
+  &__star {
+    width: 24px;
+    height: 24px;
+
+    @include on-desktop {
+      width: 44px;
+      height: 44px;
+    }
   }
 }

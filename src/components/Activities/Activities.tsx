@@ -15,10 +15,10 @@ export const Activity = () => {
     setSearchParams(params);
   };
   return (
-    <div id="activities" className="activities">
+    <section id="activities" className="activities">
       <h1 className="activities__title">Події в місті</h1>
       <Filters handleFilterBy={handleFilterBy} filter={filter} />
       <ActivityCard />
-    </div>
+    </section>
   );
 };

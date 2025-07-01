@@ -1,6 +1,6 @@
 export const AboutUs = () => {
   return (
-    <div id="aboutUs" className="aboutUs">
+    <section id="aboutUs" className="aboutUs">
       <h1 className="aboutUs__title">Хто ми?</h1>
       <div className="aboutUs__container">
         <div className="aboutUs__block-wrapper">
@@ -11,8 +11,7 @@ export const AboutUs = () => {
             </p>
             <p className="aboutUs__text aboutUs__text--2">
               Більше руху, більше знайомств, більше <br />
-              веселощів — і все це
-              безкоштовно.
+              веселощів — і все це безкоштовно.
             </p>
             <img
               src="img/aboutUs-fyf.svg"
@@ -23,35 +22,47 @@ export const AboutUs = () => {
               Творімо моменти <br />
               разом
             </p>
-          
           </div>
-            <button type="button" className="aboutUs__button">
-              <a href="#" className="aboutUs__button-link">
-                Переглянути події
-              </a>
-            </button>
+          <button type="button" className="aboutUs__button">
+            <a href="#" className="aboutUs__button-link">
+              Переглянути події
+            </a>
+          </button>
         </div>
         <div className="aboutUs__block-second">
-          <img 
-            className="aboutUs__img aboutUs__img--1"
-            src="img/about-us-1.png" 
-            alt="about-us-1" 
-          />
-          <img 
-            className="aboutUs__img aboutUs__img--2"
-            src="img/about-us-2.png" 
-            alt="about-us-2" 
-          />
-          <img 
-            className="aboutUs__img aboutUs__img--3"
-            src="img/about-us-3.png" 
-            alt="about-us-3" 
-          />
+          <picture>
+            <source media="(min-width: 1440px)" srcSet="img/about-us-1.png" />
+            <img
+              className="aboutUs__img aboutUs__img--1"
+              src="img/about-us-1-mobile.png"
+              alt="about-us-1"
+            />
+          </picture>
+          <picture>
+            <source media="(min-width: 1440px)" srcSet="img/about-us-2.png" />
+            <img
+              className="aboutUs__img aboutUs__img--2"
+              src="img/about-us-2-mobile.png"
+              alt="about-us-2"
+            />
+          </picture>
+          <picture>
+            <source media="(min-width: 1440px)" srcSet="img/about-us-3.png" />
+            <img
+              className="aboutUs__img aboutUs__img--3"
+              src="img/about-us-3-mobile.png"
+              alt="about-us-3"
+            />
+          </picture>
           <div className="aboutUs__box-logo">
-            <img src="img/icons/logo.svg" alt="logo" />
+            <img 
+              src="img/icons/logo.svg"
+              alt="logo"
+              className="aboutUs__box-logo-img"
+            />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
