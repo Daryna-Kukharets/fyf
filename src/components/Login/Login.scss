@@ -6,6 +6,7 @@
   left: 0;
   right: 0;
   height: 100vh;
+  overflow: auto;
   background-color: $white-color;
   z-index: 100;
   transform: translateX(100%);
