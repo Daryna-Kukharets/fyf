@@ -1,0 +1,34 @@
+@use "../../styles/utils" as *;
+
+.plans {
+  padding-block: 32px;
+
+  @include container;
+
+  &__box {
+    padding-top: 90px;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    gap: 8px;
+    margin-left: auto;
+
+    @include on-desktop {
+      padding-top: 0;
+      gap: 16px;
+    }
+  }
+
+  &__button {
+    text-align: center;
+  }
+
+  &__text {
+    font-size: 14px;
+
+    @include on-desktop {
+      font-size: 16px;
+    }
+  }
+}
+

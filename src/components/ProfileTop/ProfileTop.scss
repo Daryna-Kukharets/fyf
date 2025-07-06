@@ -1,0 +1,38 @@
+@use "../../styles/utils" as *;
+
+.profileTop {
+
+  &__nav {
+    padding-top: 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    @include on-desktop {
+      padding-top: 32px;
+      gap: 24px;
+    }
+  }
+
+  &__title {
+    font-family: Lora, sans-serif;
+    font-size: 36px;
+    color: $grey-color;
+
+    @include on-desktop {
+      font-size: 64px;
+    }
+
+    &--active {
+      color: $black-color;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      
+      @include on-desktop {
+        text-underline-offset: 6px;
+        text-decoration-thickness: 4px;
+      }
+    }
+  }
+}

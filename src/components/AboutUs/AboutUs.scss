@@ -2,6 +2,8 @@
 
 .aboutUs {
   padding-top: 32px;
+  display: flex;
+  flex-direction: column;
 
   @include container;
 
@@ -18,9 +20,8 @@
   &__container {
     display: flex;
     flex-direction: column;
-    padding-top: 214px;
     position: relative;
-    gap: 160px;
+    gap: 34px;
 
     @include on-desktop {
       padding-top: 50px;
@@ -31,15 +32,16 @@
     }
   }
 
-  &__block-wrapper {
+  &__block-first {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  &__block-first {
-    @include on-desktop {
-      position: relative;
-    }
+  &__empty {
+    height: 0;
+    width: 0;
+    opacity: 0;
   }
 
   &__text {
@@ -49,59 +51,55 @@
     border: 1px solid $dark-blue-color;
     border-radius: 12px;
     text-align: center;
-    position: absolute;
+    position: relative;
     background-color: $bg-text-about;
     width: max-content;
+    box-sizing: border-box;
 
     @include on-desktop {
       font-size: 16px;
     }
 
     &--1 {
-      transform: rotate(-3deg);
-      left: 0px;
-      top: 34px;
-
-      @include on-desktop {
-        top: -170px;
-      }
+      margin-top: 16px;
     }
 
     &--2 {
-      top: 114px;
-      right: 16px;
+      margin-top: 16px;
       width: 170px;
+      margin-left: auto;
 
       @include on-desktop {
-        top: -110px;
-        right: -200px;
+        left: 50%;
         width: max-content;
       }
     }
 
     &--3 {
-      margin-top: 55px;
-      left: 20%;
+      margin-top: 22px;
+      left: 10%;
 
       @include on-desktop {
-        margin-top: 42px;
-        left: 100px;
+        margin-top: 32px;
       }
     }
   }
 
   &__fyf {
-    position: absolute;
-    left: 20%;
+    margin-top: 16px;
+    position: relative;
+    left: 10%;
     width: 248px;
+
     @include on-desktop {
-      position: relative;
-      left: 100px;
       width: 496px;
     }
   }
 
   &__block-second {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
     width: 300px;
     margin: 0 auto;
@@ -137,21 +135,20 @@
     }
 
     &--3 {
-      position: absolute;
-      bottom: 20px;
-      left: -4%;
+      left: -63%;
+      margin-top: -87px;
 
       @include on-desktop {
-        bottom: 30px;
-        left: -90px;
+        left: -83%;
+        margin-top: -170px;
       }
     }
   }
 
   &__box-logo {
-    margin-top: 8px;
-    position: relative;
+    margin-top: -60px;
 
+    position: relative;
     z-index: 2;
     width: 94px;
     height: 73px;
@@ -161,13 +158,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    left: 40%;
+    left: 5%;
 
     @include on-desktop {
       height: 140px;
       width: 180px;
-      left: 50%;
-      transform: translate(-65%);
+      margin-top: -110px;
+      left: -5%;
     }
   }
 
@@ -184,13 +181,27 @@
     border-radius: 12px;
     padding: 16px 24px;
     position: relative;
-    transform: translate(-50%);
     z-index: 5;
-    
-    @include on-desktop {
-      position: absolute;
-      left: 15%;
-      bottom: 0;
+    width: max-content;
+
+    &--1 {
+      display: none;
+
+      @include on-desktop {
+        display: block;
+        left: 30%;
+      }
+    }
+
+    &--2 {
+      margin-top: 24px;
+      left: 50%;
+      transform: translate(-50%);
+      align-self: center;
+
+      @include on-desktop {
+        display: none;
+      }
     }
   }
 

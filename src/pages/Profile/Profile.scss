@@ -1,0 +1,7 @@
+@use "../../styles/utils" as *;
+
+.profile {
+  padding-block: 32px;
+
+  @include container;
+}

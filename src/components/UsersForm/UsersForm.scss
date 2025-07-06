@@ -1,0 +1,171 @@
+@use "../../styles/utils" as *;
+
+.usersForm {
+  &__head {
+    padding-top: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+
+    @include on-desktop {
+      padding-top: 32px;
+    }
+  }
+
+  &__photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+
+    @include on-desktop {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  &__button {
+    font-size: 16px;
+    line-height: 22px;
+    border-radius: 12px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include on-desktop {
+      height: 56px;
+      max-width: none;
+      width: 238px;
+    }
+
+    &--add {
+      min-width: 100px;
+      max-width: 200px;
+      width: auto;
+      background-color: $button-blue-color;
+      color: $white-color;
+    }
+
+    &--take {
+      min-width: 100px;
+      max-width: 200px;
+      width: auto;
+      border: 1px solid $dark-blue-color;
+    }
+
+    &--reg {
+      margin-top: 24px;
+      background-color: $button-blue-color;
+      color: $white-color;
+    }
+
+    &--logout {
+      margin-top: 24px;
+      background-color: $light-grey-color;
+      width: 100%;
+
+      @include on-desktop {
+        width: 50%;
+      }
+    }
+
+    &--delete {
+      color: $orange-color;
+      width: 100%;
+
+      @include on-desktop {
+        width: 50%;
+      }
+    }
+  }
+
+  &__form {
+    padding-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__input-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__check-block {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  &__input {
+    @include on-desktop {
+      width: 50%;
+    }
+  }
+
+  &__input-password {
+    position: relative;
+  }
+
+  &__eye {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
+
+    @include on-desktop {
+      right: 51%;
+    }
+  }
+
+  &__label {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  &__check {
+    width: 20px;
+    height: 20px;
+  }
+}
+.usersForm__photo {
+  object-fit: cover;
+  border-radius: 12px;
+  width: 100px;
+  height: 100px;
+}
+
+.usersForm__video-container {
+  margin-top: 12px;
+  position: relative;
+}
+
+.usersForm__video {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 8px;
+}
+
+.usersForm__button--capture {
+  margin-top: 8px;
+  background-color: #2d84fb;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+}

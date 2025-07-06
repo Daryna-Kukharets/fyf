@@ -1,9 +1,7 @@
 @use "../../styles/utils" as *;
-
 .custom-select {
   position: relative;
   flex-shrink: 0;
-
   &__header {
     color: $grey-color;
     padding: 16px 56px 16px 24px;
@@ -14,11 +12,9 @@
     transition: all $effect-duration ease;
     position: relative;
     white-space: nowrap; 
-
     @include on-desktop {
       font-size: 24px;
     }
-
     &::before {
       content: "";
       position: absolute;
@@ -30,13 +26,11 @@
       background-image: url(/img/icons/arrow-down.svg);
       transition: transform $effect-duration ease;
     }
-
     &--rotated {
       &::before {
         transform: translateY(-50%) rotate(-180deg);
       }
     }
-
     &--main {
       background-color: $white-color;
       font-size: 13px;
@@ -54,30 +48,29 @@
       }
     }
   }
-
   &__options {
     margin-top: 8px;
-    position: fixed; 
+    position: absolute; 
     min-width: 100%;
     background-color: $white-color;
     box-shadow: 2px 16px 19px 0px #00000017, 0px 0px 4px 0px #00000017;
     z-index: 10;
     border-radius: 12px;
     display: flex;
+    top: 53px !important;
+    left: 0 !important;
     flex-direction: column;
     gap: 16px;
     padding: 16px 24px;
     box-sizing: border-box;
     max-width: 280px;
   }
-
   &__option {
     transition: all $effect-duration ease;
     cursor: pointer;
     font-size: 16px;
     color: $select-grey-color;
     white-space: nowrap; 
-
     &:hover {
       color: $black-color;
     }

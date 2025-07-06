@@ -1,4 +1,14 @@
-export const ActivityCard = () => {
+import { Link } from "react-router-dom";
+
+type Props = {
+  mode: string;
+};
+
+export const ActivityCard: React.FC<Props> = ({
+  mode,
+}) => {
+  const isActivity = mode === "activity";
+
   return (
     <div className="activityCard">
       <div className="activityCard__img-box">
@@ -7,7 +17,9 @@ export const ActivityCard = () => {
           src="img/activity/football.png"
           alt="football"
         />
-        <div className="activityCard__mate">4</div>
+        {isActivity && (
+          <div className="activityCard__participants">4</div>
+        )}
       </div>
       <div className="activityCard__info-box">
         <h2 className="activityCard__subtitle">Футбол</h2>
@@ -27,6 +39,20 @@ export const ActivityCard = () => {
           </svg>
           <p className="activityCard__text activityCard__text--date">Пт, 8 червня 14:00</p>
         </div>
+        {!isActivity && (
+          <Link to='/participants' className="activityCard__img-box">
+            <img 
+              src="img/icons/take-photo.svg" 
+              alt="photo" 
+              className="activityCard__person-img"
+            />
+            <img 
+              src="img/icons/take-photo.svg" 
+              alt="photo" 
+              className="activityCard__person-img"
+            />
+          </Link>
+        )}
         <div className="activityCard__info">
           <svg
             width="24"
@@ -44,9 +70,15 @@ export const ActivityCard = () => {
           <p className="activityCard__text activityCard__text--location">Вул. Івана Франка 34</p>
         </div>
       </div>
+      {isActivity ? (
       <button type="button" className="activityCard__button">
         Записатися
       </button>
+      ) : (
+      <button type="button" className="activityCard__button activityCard__button--cancel">
+        Скасувати запис
+      </button>
+      )}
     </div>
   );
 };

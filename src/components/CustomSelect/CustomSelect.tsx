@@ -37,11 +37,6 @@ export const CustomSelect: React.FC<Props> = ({
   const updateDropdownPosition = () => {
     if (headerRef.current) {
       const rect = headerRef.current.getBoundingClientRect();
-      setDropdownPosition({
-        top: rect.bottom,
-        left: rect.left,
-        width: rect.width
-      });
     }
   };
 

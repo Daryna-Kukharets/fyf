@@ -1,0 +1,51 @@
+@use "../../styles/utils" as *;
+
+.participants {
+  padding-top: 32px;
+  
+  @include container;
+
+  &__title {
+    font-family: Lora, sans-serif;
+    font-size: 36px;
+    padding-top: 16px;
+    font-weight: 400;
+
+    @include on-desktop {
+      padding-top: 32px;
+      font-size: 64px;
+    }
+  }
+
+  &__card {
+    margin-top: 24px;
+    padding: 16px 24px;
+    border: 1px solid $border-participants-color;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    @include on-desktop {
+      margin-top: 44px;
+      width: 330px;
+      box-sizing: border-box;
+    }
+  }
+
+  &__img {
+    width: 50px;
+    height: 50px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__name {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}

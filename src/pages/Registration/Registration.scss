@@ -1,0 +1,19 @@
+@use "../../styles/utils" as *;
+
+.registration {
+  padding-block: 32px;
+
+  @include container;
+
+  &__title {
+    padding-top: 16px;
+    font-family: Lora, sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+
+    @include on-desktop {
+      padding-top: 32px;
+      font-size: 64px;
+    }
+  }
+}

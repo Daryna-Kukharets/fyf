@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 import { Navigation } from "../Navigation/Navigation";
 import { BurgerMenu } from "../BurgerMenu/BurgerMenu";
+import { Link, useLocation } from "react-router-dom";
+import { Login } from "../Login/Login";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollWidth, setScrollWidth] = useState(0);
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  const location = useLocation();
+
+  const isHomePage = location.pathname === "/" || location.pathname === "/fyf";
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const toggleLogin = () => {
+    setLoginOpen(!loginOpen);
   };
 
   useEffect(() => {
@@ -19,6 +30,18 @@ export const Header = () => {
   }, [menuOpen]);
 
   useEffect(() => {
+    document.body.style.overflow = loginOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [loginOpen]);
+
+  useEffect(() => {
+    if (!isHomePage) {
+      return;
+    }
+
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.body.scrollHeight - window.innerHeight;
@@ -31,7 +54,7 @@ export const Header = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  });
+  }, [isHomePage]);
   console.log(scrollWidth);
 
   return (
@@ -39,20 +62,32 @@ export const Header = () => {
       <header className="header">
         <div className="header__container">
           <div className="header__box">
-            <img src="img/icons/logo.svg" alt="logo" className="header__logo" />
+            <Link 
+              to="/"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <img
+                src="img/icons/logo.svg"
+                alt="logo"
+                className="header__logo"
+              />
+            </Link>
             <div className="header__block">
               <Navigation
                 classForList={"nav__list--header"}
                 classForLink={"nav__link--header"}
               />
               <div className="header__buttons">
-                <button
-                  type="button"
+                <Link
+                  to="/registration"
                   className="header__button header__button--regist"
                 >
                   Реєстрація
-                </button>
-                <button className="header__button header__button--login">
+                </Link>
+                <button
+                  onClick={() => setLoginOpen(true)}
+                  className="header__button header__button--login"
+                >
                   Вхід
                 </button>
               </div>
@@ -76,7 +111,10 @@ export const Header = () => {
                   />
                 </svg>
               </button>
-              <button type="button">
+              <button 
+              type="button"
+                onClick={() => setLoginOpen(true)}
+              >
                 <svg
                   width="44"
                   height="44"
@@ -92,13 +130,18 @@ export const Header = () => {
               </button>
             </div>
           </div>
-          <div
-            className="header__scroll-progress"
-            style={{ width: `${scrollWidth}%` }}
-          />
+          {isHomePage && (
+            <div
+              className="header__scroll-progress"
+              style={{ width: `${scrollWidth}%` }}
+            />
+          )}
         </div>
       </header>
       <BurgerMenu toggleMenu={toggleMenu} menuOpen={menuOpen} />
+      {loginOpen && (
+        <Login loginOpen={loginOpen} toggleLogin={toggleLogin} />
+      )}
     </>
   );
 };
