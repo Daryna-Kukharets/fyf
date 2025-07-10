@@ -1,0 +1,68 @@
+@use "../../styles/utils" as *;
+
+.userPhotoUploader {
+  padding-top: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+
+  @include on-desktop {
+    padding-top: 32px;
+  }
+
+  &__photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    @include on-desktop {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+   &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  &__button {
+    font-size: 16px;
+    line-height: 22px;
+    border-radius: 12px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    @include on-desktop {
+      height: 56px;
+      max-width: none;
+      width: 238px;
+    }
+
+    &--add {
+      min-width: 100px;
+      max-width: 200px;
+      width: auto;
+      background-color: $button-blue-color;
+      color: $white-color;
+    }
+
+    &--take {
+      min-width: 100px;
+      max-width: 200px;
+      width: auto;
+      border: 1px solid $dark-blue-color;
+    }
+
+
+  }
+}

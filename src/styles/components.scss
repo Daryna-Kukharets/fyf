@@ -3,7 +3,6 @@
 @use "../components/Main/Main";
 @use "../components/AboutUs/AboutUs";
 @use "../components/Filters/Filters";
-@use "../components/CustomSelect/CustomSelect";
 @use "../components/Activities/Activities";
 @use "../components/ActivityCard/ActivityCard";
 @use "../components/Reviews/Reviews";
@@ -16,6 +15,11 @@
 @use "../components/Login/Login";
 @use "../components/UsersForm/UsersForm";
 @use "../components/ProfileTop/ProfileTop";
+@use "../components/CameraCapture/CameraCapture";
+@use "../components/CustomSelect/CustomSelect";
+@use "../components/UserInputField/UserInputField";
+@use "../components/PasswordField/PasswordField";
+@use "../components/UserPhotoUploader/UserPhotoUploader";
 
 @use "../pages/Registration/Registration";
 @use "../pages/Profile/Profile";

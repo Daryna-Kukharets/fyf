@@ -3,20 +3,25 @@ export interface RequestParams<T> {
   data: T;
 }
 
-export const sendAuthRequest = async <T>(params: RequestParams<T>) => {
-  const { endpoint, data } = params;
-
+export const sendAuthRequest = async <T extends FormData | object>({
+  endpoint,
+  data,
+}: RequestParams<T>) => {
   try {
     const response = await fetch(`http://localhost:8081/auth/${endpoint}`, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      credentials: "include",
+      method: "POST",
+      headers:
+        data instanceof FormData
+          ? undefined
+          : {
+              "Content-Type": "application/json",
+            },
+      body: data instanceof FormData ? data : JSON.stringify(data),
     });
 
     if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`Помилка при ${endpoint === 'login' ? 'вході' : 'реєстрації'}: ${text}`);
+      const errorBody = await response.text();
+      throw new Error(`Помилка при реєстрації: ${errorBody}`);
     }
 
     return await response.json();

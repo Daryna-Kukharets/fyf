@@ -1,4 +1,10 @@
 import { useRef, useState } from "react";
+import { CameraCapture } from "../CameraCapture/CameraCapture";
+import { UserPhotoUploader } from "../UserPhotoUploader/UserPhotoUploader";
+import { sendAuthRequest } from "../../api/auth";
+import { base64ToFile } from "../../utils/base64ToFile";
+import { UserInputField } from "../UserInputField/UserInputField";
+import { PasswordField } from "../PasswordField/PasswordField";
 
 type UserFormProps = {
   mode: "register" | "profile";
@@ -8,15 +14,19 @@ type UserFormProps = {
     lastName: string;
     phone: string;
     password?: string;
+    repeatPassword?: string;
   };
   checked?: boolean;
   setChecked?: (value: boolean) => void;
   onChange: (field: keyof UserFormProps["values"], value: string) => void;
-  onPhotoUpload?: () => void;
-  onPhotoCapture: () => void;
   onLogout?: () => void;
   onDeleteAccount?: () => void;
 };
+
+function validateEmail(email: string): boolean {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  return re.test(email);
+}
 
 export const UsersForm: React.FC<UserFormProps> = ({
   mode,
@@ -24,15 +34,110 @@ export const UsersForm: React.FC<UserFormProps> = ({
   checked,
   setChecked,
   onChange,
-  onPhotoUpload,
-  onPhotoCapture,
   onLogout,
   onDeleteAccount,
 }) => {
   const isProfile = mode === "profile";
   const [photo, setPhoto] = useState<string | null>(null);
-  const [streaming, setStreaming] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [showCamera, setShowCamera] = useState(false);
+
+  const [errors, setErrors] = useState<{
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    password?: string;
+    repeatPassword?: string;
+  }>({});
+
+  const handleFieldChange = (
+    field: keyof UserFormProps["values"],
+    value: string
+  ) => {
+    onChange(field, value);
+
+    if (field === "email") {
+      if (!validateEmail(value)) {
+        setErrors((prev) => ({ ...prev, email: "Невірний формат пошти" }));
+      } else {
+        setErrors((prev) => {
+          const copy = { ...prev };
+          delete copy.email;
+          return copy;
+        });
+      }
+    }
+
+    if (field === "firstName") {
+      if (value.length > 25) {
+        setErrors((prev) => ({
+          ...prev,
+          firstName: "Ім'я не повинно перевищувати 25 символів",
+        }));
+      } else {
+        setErrors((prev) => {
+          const copy = { ...prev };
+          delete copy.firstName;
+          return copy;
+        });
+      }
+    }
+
+    if (field === "lastName") {
+      if (value.length > 25) {
+        setErrors((prev) => ({
+          ...prev,
+          lastName: "Прізвище не повинно перевищувати 25 символів",
+        }));
+      } else {
+        setErrors((prev) => {
+          const copy = { ...prev };
+          delete copy.lastName;
+          return copy;
+        });
+      }
+    }
+
+    if (field === "password") {
+      if (value.length < 8) {
+        setErrors((prev) => ({
+          ...prev,
+          password: "Пароль має містити мінімум 8 символів",
+        }));
+      } else {
+        setErrors((prev) => {
+          const copy = { ...prev };
+          delete copy.password;
+          return copy;
+        });
+      }
+    }
+
+    if (field === "repeatPassword") {
+      if (value.length < 8) {
+        setErrors((prev) => ({
+          ...prev,
+          password: "Пароль має містити мінімум 8 символів",
+        }));
+      } else {
+        setErrors((prev) => {
+          const copy = { ...prev };
+          delete copy.password;
+          return copy;
+        });
+      }
+    }
+  };
+
+  const isFormValid =
+    Boolean(
+      values.email &&
+        values.firstName &&
+        values.lastName &&
+        values.phone &&
+        values.password &&
+        values.repeatPassword &&
+        checked
+    ) && Object.keys(errors).length === 0;
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -45,212 +150,159 @@ export const UsersForm: React.FC<UserFormProps> = ({
     }
   };
 
-  const handleStartCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-        setStreaming(true);
-      }
-    } catch (error) {
-      console.log("Camera access error:", error);
-    }
+  const handleCapture = (dataUrl: string) => {
+    setPhoto(dataUrl);
+    setShowCamera(false);
   };
 
-  const handleCapturePhoto = () => {
-    if (!videoRef.current) return;
-    const canvas = document.createElement("canvas");
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      const imageData = canvas.toDataURL("image/png");
-      setPhoto(imageData);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!values.password || !values.repeatPassword) {
+      return;
     }
-    const stream = videoRef.current.srcObject as MediaStream;
-    stream.getTracks().forEach((track) => track.stop());
-    setStreaming(false);
+
+    try {
+      const formData = new FormData();
+
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("repeatPassword", values.repeatPassword);
+      formData.append("firstName", values.firstName);
+      formData.append("lastName", values.lastName);
+      formData.append("phoneNumber", values.phone);
+
+      if (photo) {
+        const file = base64ToFile(photo, "user-photo.jpg");
+        formData.append("file", file);
+      }
+
+      const response = await sendAuthRequest({
+        endpoint: "registration",
+        data: formData,
+      });
+
+      alert("Реєстрація успішна!");
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   return (
     <>
-      <div className="usersForm__head">
-        <div className="usersForm__img-box">
-          {photo ? (
-            <img src={photo} alt="avatar" className="usersForm__photo" />
-          ) : (
-            <img
-              src="img/icons/take-photo.svg"
-              alt="take-photo"
-              className="usersForm__photo"
-            />
-          )}
-        </div>
-        <div className="usersForm__buttons">
-          <label className="usersForm__button usersForm__button--add">
-            {isProfile ? "Змінити фото" : "Додати фото"}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleUpload}
-              hidden
-            />
-          </label>
-          <button
-            type="button"
-            className="usersForm__button usersForm__button--take"
-            onClick={handleStartCamera}
-          >
-            {isProfile ? "Зробити нове фото" : "Зробити фото"}
-          </button>
-        </div>
-        {streaming && (
-          <div className="usersForm__video-container">
-            <video ref={videoRef} className="usersForm__video" />
-            <button
-              type="button"
-              onClick={handleCapturePhoto}
-              className="usersForm__button usersForm__button--capture"
-            >
-              📸 Зробити фото
-            </button>
-          </div>
-        )}
-      </div>
-      <div className="usersForm__body">
-        <form action="#" method="get" className="usersForm__form">
-          <div className="usersForm__inputs">
-            <div className="usersForm__input-block">
-              <label htmlFor="regist-email" className="usersForm__label">
-                Пошта
-              </label>
-              <input
-                type="email"
-                className="usersForm__input custom-input"
-                id="regist-email"
-                value={values.email}
-                onChange={(e) => onChange("email", e.target.value)}
-                required
-                disabled={isProfile}
-              />
-            </div>
-            <div className="usersForm__input-block">
-              <label htmlFor="regist-firstName" className="usersForm__label">
-                Ім'я
-              </label>
-              <input
-                type="text"
-                value={values.firstName}
-                onChange={(e) => onChange("firstName", e.target.value)}
-                className="usersForm__input custom-input"
-                id="regist-firstName"
-                required
-                disabled={isProfile}
-              />
-            </div>
-            <div className="usersForm__input-block">
-              <label htmlFor="regist-lastName" className="usersForm__label">
-                Прізвище
-              </label>
-              <input
-                type="text"
-                value={values.lastName}
-                onChange={(e) => onChange("lastName", e.target.value)}
-                className="usersForm__input custom-input"
-                id="regist-lastName"
-                required
-                disabled={isProfile}
-              />
-            </div>
-            <div className="usersForm__input-block">
-              <label htmlFor="regist-phone" className="usersForm__label">
-                Номер телефону
-              </label>
-              <input
-                type="tel"
-                value={values.phone}
-                onChange={(e) => onChange("phone", e.target.value)}
-                className="usersForm__input custom-input"
-                id="regist-phone"
-                required
-                disabled={isProfile}
-              />
-            </div>
-            {!isProfile && (
-              <div className="usersForm__input-block">
-                <label htmlFor="regist-password" className="usersForm__label">
-                  Пароль
-                </label>
-                <div className="usersForm__input-password">
-                  <input
-                    type="password"
-                    value={values.password}
-                    onChange={(e) => onChange("password", e.target.value)}
-                    className="usersForm__input custom-input"
-                    id="regist-password"
-                    required
-                  />
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="usersForm__eye"
-                  >
-                    <path
-                      d="M12 4.5C7 4.5 2.73 7.61 1 12C2.73 16.39 7 19.5 12 19.5C17 19.5 21.27 16.39 23 12C21.27 7.61 17 4.5 12 4.5ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z"
-                      fill="#999DA3"
-                    />
-                  </svg>
-                </div>
-              </div>
-            )}
-          </div>
+      <UserPhotoUploader
+        photo={photo}
+        isProfile={isProfile}
+        onUpload={handleUpload}
+        onOpenCamera={() => setShowCamera(true)}
+        showCamera={showCamera}
+        onCapture={handleCapture}
+        onCloseCamera={() => setShowCamera(false)}
+      />
+      <form onSubmit={handleSubmit} className="usersForm__form">
+        <div className="usersForm__inputs">
+          <UserInputField
+            id="regist-email"
+            label="Пошта"
+            type="email"
+            value={values.email}
+            onChange={(e) => handleFieldChange("email", e.target.value)}
+            disabled={isProfile}
+            error={errors.email}
+          />
 
-          {isProfile ? (
-            <div className="usersForm__buttons">
-              <button
-                type="button"
-                className="usersForm__button usersForm__button--logout"
-              >
-                Вихід
-              </button>
-              <button
-                type="button"
-                className="usersForm__button usersForm__button--delete"
-              >
-                Видалити акаунт
-              </button>
-            </div>
-          ) : (
+          <UserInputField
+            id="regist-firstName"
+            label="Ім'я"
+            type="text"
+            value={values.firstName}
+            onChange={(e) => handleFieldChange("firstName", e.target.value)}
+            disabled={isProfile}
+            error={errors.firstName}
+          />
+
+          <UserInputField
+            id="regist-lastName"
+            label="Прізвище"
+            type="text"
+            value={values.lastName}
+            onChange={(e) => handleFieldChange("lastName", e.target.value)}
+            disabled={isProfile}
+            error={errors.lastName}
+          />
+
+          <UserInputField
+            id="regist-phone"
+            label="Номер телефону"
+            type="text"
+            value={values.phone}
+            onChange={(e) => onChange("phone", e.target.value)}
+            disabled={isProfile}
+          />
+
+          {!isProfile && (
             <>
-              <div className="usersForm__input-block usersForm__check-block">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  className="usersForm__check"
-                  onChange={(e) => setChecked?.(e.target.checked)}
-                  id="regist-check"
-                  required
-                />
-                <label htmlFor="regist-check" className="usersForm__label">
-                  Я погоджуюся з правилами використання
-                </label>
-              </div>
-              <button
-                type="button"
-                className="usersForm__button usersForm__button--reg"
-                disabled={!checked}
-              >
-                Реєстрація
-              </button>
+              <PasswordField
+                id="regist-password"
+                label="Пароль"
+                value={values.password}
+                onChange={(e) => handleFieldChange("password", e.target.value)}
+                error={errors.password}
+              />
+              <PasswordField
+                id="regist-repeatPassword"
+                label="Підтвердження пароля"
+                value={values.repeatPassword}
+                onChange={(e) => handleFieldChange("repeatPassword", e.target.value)}
+                error={errors.repeatPassword}
+              />
             </>
           )}
-        </form>
-      </div>
+        </div>
+
+        {isProfile ? (
+          <div className="usersForm__buttons">
+            <button
+              type="button"
+              className="usersForm__button usersForm__button--logout"
+            >
+              Вихід
+            </button>
+            <button
+              type="button"
+              className="usersForm__button usersForm__button--delete"
+            >
+              Видалити акаунт
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="usersForm__input-block usersForm__check-block">
+              <input
+                type="checkbox"
+                checked={checked}
+                className="usersForm__check"
+                onChange={(e) => setChecked?.(e.target.checked)}
+                id="regist-check"
+                required
+              />
+              <label htmlFor="regist-check" className="usersForm__label">
+                Я погоджуюся з правилами використання
+              </label>
+            </div>
+            <button
+              type="submit"
+              className={`
+                  usersForm__button 
+                  usersForm__button--reg 
+                  ${!isFormValid ? "usersForm__button--disabled" : ""}`}
+              disabled={!isFormValid}
+            >
+              Реєстрація
+            </button>
+          </>
+        )}
+      </form>
     </>
   );
 };

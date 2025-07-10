@@ -9,12 +9,14 @@ export const Registration = () => {
     lastName: "",
     phone: "",
     password: "",
+    repeatPassword: "",
   });
   const [checked, setChecked] = useState(false);
 
   const handleChange = (field: keyof typeof values, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
   };
+
   return (
     <div className="registration">
       <BackPath />
@@ -25,8 +27,6 @@ export const Registration = () => {
         checked={checked}
         setChecked={setChecked}
         onChange={handleChange}
-        onPhotoUpload={() => alert("Upload photo")}
-        onPhotoCapture={() => alert("Capture photo")}
       />
     </div>
   );

@@ -1,0 +1,34 @@
+.camera-capture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__video {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+
+  &__mirrored {
+    transform: scaleX(-1);
+  }
+
+  &__controls {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__button--close {
+    background-color: #dc3545;
+  }
+}

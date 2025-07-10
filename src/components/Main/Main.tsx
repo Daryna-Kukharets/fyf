@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { CustomSelect } from "../CustomSelect/CustomSelect";
 import { useSearchParams } from "react-router-dom";
 import { categories } from "../../types/Categories";
 import { CalendarPicker } from "../CalendarPicker/CalendarPicker";
 import { LocationPicker } from "../LocationPicker/LocationPicker";
 import { FadeIn } from "../FadeIn/FadeIn";
+import { CustomSelect } from "../CustomSelect/CustomSelect";
 
 export const Main = () => {
   const [location, setLocation] = useState("");

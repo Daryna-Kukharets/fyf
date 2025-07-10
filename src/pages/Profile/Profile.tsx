@@ -11,6 +11,7 @@ export const Profile = () => {
     lastName: "",
     phone: "",
     password: "",
+    repeatPassword: "",
   });
   const [checked, setChecked] = useState(false);
 
@@ -33,8 +34,6 @@ export const Profile = () => {
         mode="profile"
         values={values}
         onChange={handleChange}
-        onPhotoUpload={() => alert("Upload photo")}
-        onPhotoCapture={() => alert("Capture photo")}
         onLogout={handleLogout}
         onDeleteAccount={handleDeleteAccount}
       />
