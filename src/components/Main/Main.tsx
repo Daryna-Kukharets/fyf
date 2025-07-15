@@ -1,16 +1,27 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { categories } from "../../types/Categories";
 import { CalendarPicker } from "../CalendarPicker/CalendarPicker";
 import { LocationPicker } from "../LocationPicker/LocationPicker";
 import { FadeIn } from "../FadeIn/FadeIn";
 import { CustomSelect } from "../CustomSelect/CustomSelect";
+import { useActivityStore } from "../../store/useActivityStore";
 
 export const Main = () => {
   const [location, setLocation] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const { setAddress, setCategory } = useActivityStore();
+  const navigate = useNavigate();
+
   const category = searchParams.get("category") || "";
+
+  const handleCreate = () => {
+    setLocation(location);
+    setCategory(category);
+    navigate("/create-activity", { replace: true });
+
+  };
 
   const handleFilterBy = (option: string) => {
     const params = new URLSearchParams(searchParams);
@@ -60,7 +71,7 @@ export const Main = () => {
                       options={categories}
                       onChange={handleFilterBy}
                       value={category}
-                      classForHeader={"custom-select__header--main"}
+                      classFor={"custom-select__header"}
                     />
                     <svg
                       width="24"
@@ -101,7 +112,7 @@ export const Main = () => {
                     Події
                   </button>
                   <button
-                    type="button"
+                    onClick={handleCreate}
                     className="main__button main__button--create"
                   >
                     Створити

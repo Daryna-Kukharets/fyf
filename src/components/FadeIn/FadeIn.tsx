@@ -1,4 +1,3 @@
-// src/components/animations/FadeIn.tsx
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 

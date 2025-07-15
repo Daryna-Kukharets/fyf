@@ -4,7 +4,6 @@ import type { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Налаштування іконки маркера
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -18,27 +17,29 @@ L.Icon.Default.mergeOptions({
 type LocationPickerProps = {
   value: string;
   onChange: (address: string) => void;
+  classFor?: string;
 };
 
-export const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
+export const LocationPicker = ({ value, onChange, classFor }: LocationPickerProps) => {
   const [showMap, setShowMap] = useState(false);
   const [markerPos, setMarkerPos] = useState<LatLngExpression | null>(null);
   const [inputValue, setInputValue] = useState(value);
 
   const reverseGeocode = async (lat: number, lon: number) => {
-    try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
-      );
-      const data = await res.json();
-      if (data.display_name) {
-        setInputValue(data.display_name);
-        onChange(data.display_name);
-      }
-    } catch (err) {
-      console.error("Reverse geocode error:", err);
+  const apiKey = "60cdfaba3dcd48249afbea0885bf1831";
+  try {
+    const res = await fetch(
+      `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKey}`
+    );
+    const data = await res.json();
+    if (data.results?.length) {
+      setInputValue(data.results[0].formatted);
+      onChange(data.results[0].formatted);
     }
-  };
+  } catch (err) {
+    console.error("Reverse geocode error:", err);
+  }
+};
 
   const MapClickHandler = () => {
     useMapEvents({
@@ -56,10 +57,10 @@ export const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
       <input
         type="text"
         value={inputValue}
-        placeholder="Виберіть локацію"
+        placeholder="Твоя локація"
         onFocus={() => setShowMap(true)}
         readOnly
-        className="main__input main__input--location"
+        className={`main__input main__input--location ${classFor}`}
       />
 
       {showMap && (

@@ -14,7 +14,7 @@ export const ActivityCard: React.FC<Props> = ({
       <div className="activityCard__img-box">
         <img
           className="activityCard__img"
-          src="img/activity/football.png"
+          src="img/activity/activity-1.png"
           alt="football"
         />
         {isActivity && (

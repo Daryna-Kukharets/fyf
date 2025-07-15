@@ -2,19 +2,8 @@
 .custom-select {
   position: relative;
   flex-shrink: 0;
-  &__header {
-    color: $grey-color;
-    padding: 16px 56px 16px 24px;
-    background-color: $light-grey-color;
-    border-radius: 12px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all $effect-duration ease;
-    position: relative;
-    white-space: nowrap; 
-    @include on-desktop {
-      font-size: 24px;
-    }
+
+  &__arrow {
     &::before {
       content: "";
       position: absolute;
@@ -26,31 +15,62 @@
       background-image: url(/img/icons/arrow-down.svg);
       transition: transform $effect-duration ease;
     }
+
     &--rotated {
       &::before {
         transform: translateY(-50%) rotate(-180deg);
       }
     }
-    &--main {
-      background-color: $white-color;
-      font-size: 13px;
-      color: $black-color;
-      padding: 13px 13px 13px 46px;
-      height: 40px;
-      box-sizing: border-box;
-      
-      @include on-desktop {
-        font-size: 16px;
-        padding-left: 56px;
-        height: 56px;
-        display: flex;
-        align-items: center;
-      }
+  }
+
+  &__header {
+    background-color: $white-color;
+    padding: 13px 13px 13px 46px;
+    color: $select-grey-color;
+    border-radius: 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all $effect-duration ease;
+    height: 48px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    @include on-desktop {
+      font-size: 16px;
+      height: 56px;
+      padding-left: 56px;
+
     }
   }
+
+  &__filters {
+    background-color: $light-grey-color;
+    padding: 15px 56px 15px 24px; 
+    height: 48px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    font-size: 16px;
+    color: $grey-color;
+
+    @include on-desktop {
+      height: 60px;
+      font-size: 24px;
+    }
+  }
+
+  &__activity {
+    background-color: transparent;
+    border: 1px solid $border-create-activity-color;
+    border-radius: 8px;
+    color: $black-color;
+    padding: 12px 16px;
+    margin-top: 8px;
+  }
+
   &__options {
     margin-top: 8px;
-    position: absolute; 
+    position: absolute;
     min-width: 100%;
     background-color: $white-color;
     box-shadow: 2px 16px 19px 0px #00000017, 0px 0px 4px 0px #00000017;
@@ -64,13 +84,19 @@
     padding: 16px 24px;
     box-sizing: border-box;
     max-width: 280px;
+
+    @include on-desktop {
+      margin-top: 12px;
+    }
   }
+
   &__option {
     transition: all $effect-duration ease;
     cursor: pointer;
     font-size: 16px;
     color: $select-grey-color;
-    white-space: nowrap; 
+    white-space: nowrap;
+
     &:hover {
       color: $black-color;
     }

@@ -36,6 +36,11 @@
 
   &__logo {
     width: 87px;
+    transition: transform $effect-duration ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
 
     @include on-desktop {
       width: 130px;
@@ -53,23 +58,45 @@
     font-weight: 400;
     padding: 16px 24px;
     border-radius: 12px;
+    transition: all $effect-duration ease;
+    cursor: pointer;
 
     &--regist {
       color: $white-color;
       background-color: $button-blue-color;
+
+      &:hover {
+        color: $button-blue-color;
+        background-color: $white-color;
+      }
     }
 
     &--login {
       color: $grey-color;
       background-color: $light-grey-color;
+
+      &:hover {
+        color: $light-grey-color;
+        background-color: $grey-color;
+      }
     }
   }
 
   &__icons {
     display: flex;
     gap: 20px;
+
     @include on-desktop {
       display: none;
+    }
+  }
+
+  &__icon {
+    cursor: pointer;
+    transition: transform $effect-duration ease;
+
+    &:hover {
+      transform: scale(1.2);
     }
   }
 
@@ -79,5 +106,18 @@
     height: 2px;
     background-color: $button-blue-color;
     transition: width $effect-duration ease;
+  }
+
+  &__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    @include on-desktop {
+      width: 56px;
+      height: 56px;
+      margin-left: 250px;
+    }
   }
 }

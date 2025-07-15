@@ -1,42 +1,68 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BackPath } from "../../components/BackPath/BackPath";
 import { UsersForm } from "../../components/UsersForm/UsersForm";
-import { Link } from "react-router-dom";
 import { ProfileTop } from "../../components/ProfileTop/ProfileTop";
+import { useAuthStore } from "../../store/authStore";
+import { getProfile } from "../../api/getProfile";
+import { Loader } from "../../components/Loader/Loader";
 
 export const Profile = () => {
+  const token = useAuthStore((state) => state.token);
   const [values, setValues] = useState({
     email: "",
     firstName: "",
     lastName: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
     repeatPassword: "",
   });
-  const [checked, setChecked] = useState(false);
+
+  const [photoPath, setPhotoPath] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (field: keyof typeof values, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleLogout = () => {
-    console.log("Logout");
-  };
+   useEffect(() => {
+    const fetchUserData = async () => {
+      if (!token) return;
 
-  const handleDeleteAccount = () => {
-    console.log("Delete account");
-  };
+      try {
+        const user = await getProfile(token);
+        setValues((prev) => ({
+          ...prev,
+          email: user.email || "",
+          firstName: user.firstName || "",
+          lastName: user.lastName || "",
+          phoneNumber: user.phoneNumber || "",
+          photoPath: user.photoPath || "",
+        }));
+        setPhotoPath( user.photoPath || "");
+      } catch (error) {
+        console.error("Помилка при отриманні профілю:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [token]);
+
   return (
-    <div className="profile">
+    <section id="profile" className="profile">
       <BackPath />
       <ProfileTop />
-      <UsersForm
-        mode="profile"
-        values={values}
-        onChange={handleChange}
-        onLogout={handleLogout}
-        onDeleteAccount={handleDeleteAccount}
-      />
-    </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <UsersForm
+          mode="profile"
+          photoPath={photoPath}
+          values={values}
+          onChange={handleChange}
+        />
+      )}
+    </section>
   );
 };

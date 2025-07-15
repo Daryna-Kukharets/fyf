@@ -16,7 +16,7 @@
   @include on-desktop {
     background-color: rgba(0, 0, 0, 0.342);
     display: flex;
-    justify-content: center; // по горизонталі
+    justify-content: center;
     align-items: center;
   }
 
@@ -41,9 +41,15 @@
   }
 
   &__close {
-    width: 100%;
+    margin-left: auto;
     display: flex;
-    justify-content: end;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform $effect-duration ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
   &__title {
@@ -81,13 +87,18 @@
     top: 50%;
     transform: translateY(-50%);
     right: 24px;
+    cursor: pointer;
+    transition: transform $effect-duration ease;
+    
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
   &__label {
     font-size: 18px;
     line-height: 26px;
   }
-
 
   &__password-block {
     display: flex;
@@ -126,26 +137,22 @@
     border-radius: 12px;
     font-size: 16px;
     line-height: 16px;
+    cursor: pointer;
+    transition: background-color $effect-duration ease;
 
     &--login {
       background-color: $button-blue-color;
       color: $white-color;
-    }
-
-    &--google {
-      margin-top: 24px;
-      background-color: $button-google-color;
-      color: $grey-color;
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      justify-content: center;
+      
+      &:hover {
+        background-color: $dark-blue-color;
+      }
     }
 
     &--reg {
       margin-top: 32px;
-      height: 56px;
       font-weight: 700;
+      height: auto;
 
       @include on-desktop {
         margin-top: 48px;

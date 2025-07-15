@@ -19,11 +19,9 @@
 
   &__img {
     width: 100%; 
+    height: 177px;
+    border-radius: 5px;
     object-fit: cover;
-
-    @include on-desktop {
-      width: auto;
-    }
   }
 
   &__participants {

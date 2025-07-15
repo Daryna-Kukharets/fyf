@@ -8,6 +8,7 @@ type Props = {
   showCamera: boolean;
   onCapture: (dataUrl: string) => void;
   onCloseCamera: () => void;
+  photoPath?: string;
 };
 
 export const UserPhotoUploader: React.FC<Props> = ({
@@ -18,28 +19,41 @@ export const UserPhotoUploader: React.FC<Props> = ({
   showCamera,
   onCapture,
   onCloseCamera,
-}) => (
-  <div className="userPhotoUploader">
-      <img
-        src={photo || "img/icons/take-photo.svg"}
-        alt="avatar"
-        className="userPhotoUploader__photo"
-      />
-    <div className="userPhotoUploader__buttons">
-      <label className="userPhotoUploader__button userPhotoUploader__button--add">
-        {isProfile ? "Змінити фото" : "Додати фото"}
-        <input type="file" accept="image/*" onChange={onUpload} hidden />
-      </label>
-      <button
-        type="button"
-        className="userPhotoUploader__button userPhotoUploader__button--take"
-        onClick={onOpenCamera}
-      >
-        {isProfile ? "Зробити нове фото" : "Зробити фото"}
-      </button>
+  photoPath,
+}) => {
+  return (
+    <div className="userPhotoUploader">
+      {isProfile ? (
+        <img
+          src={photoPath || "img/icons/take-photo.svg"}
+          alt="avatar"
+          className="userPhotoUploader__photo"
+        />
+      ) : (
+        <img
+          src={photo || "img/icons/take-photo.svg"}
+          alt="avatar"
+          className="userPhotoUploader__photo"
+        />
+      )}
+      {!isProfile && (
+      <div className="userPhotoUploader__buttons">
+        <label className="userPhotoUploader__button userPhotoUploader__button--add">
+          Додати фото
+          <input type="file" accept="image/*" onChange={onUpload} hidden />
+        </label>
+        <button
+          type="button"
+          className="userPhotoUploader__button userPhotoUploader__button--take"
+          onClick={onOpenCamera}
+        >
+          Зробити фото
+        </button>
+      </div>
+      )}
+      {showCamera && (
+        <CameraCapture onCapture={onCapture} onClose={onCloseCamera} />
+      )}
     </div>
-    {showCamera && (
-      <CameraCapture onCapture={onCapture} onClose={onCloseCamera} />
-    )}
-  </div>
-);
+  );
+};

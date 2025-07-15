@@ -2,12 +2,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
+  z-index: 20;
 
   &__video {
-    width: 100%;
-    max-width: 300px;
+    width: 90%;
     border-radius: 12px;
-    margin-bottom: 1rem;
   }
 
   &__mirrored {
@@ -16,11 +22,12 @@
 
   &__controls {
     display: flex;
-    gap: 1rem;
+    gap: 50px;
+    margin-top: 24px;
   }
 
   &__button {
-    padding: 0.5rem 1rem;
+    padding: 16px 24px;
     background-color: #007bff;
     color: white;
     border-radius: 8px;

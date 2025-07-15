@@ -7,7 +7,7 @@ export const Registration = () => {
     email: "",
     firstName: "",
     lastName: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
     repeatPassword: "",
   });
@@ -18,7 +18,7 @@ export const Registration = () => {
   };
 
   return (
-    <div className="registration">
+    <section id="registration" className="registration">
       <BackPath />
       <h1 className="registration__title">Реєстрація</h1>
       <UsersForm
@@ -28,6 +28,6 @@ export const Registration = () => {
         setChecked={setChecked}
         onChange={handleChange}
       />
-    </div>
+    </section>
   );
 };

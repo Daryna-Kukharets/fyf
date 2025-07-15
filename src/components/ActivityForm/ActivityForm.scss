@@ -1,0 +1,38 @@
+@use "../../styles/utils" as *;
+
+.activityForm {
+  &__form {
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__label {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  &__input {
+    border: 1px solid $border-create-activity-color;
+    border-radius: 8px;
+    color: $black-color;
+    padding: 12px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  &__location {
+    border: 1px solid $border-create-activity-color;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  &__location-img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 16px;
+  }
+}

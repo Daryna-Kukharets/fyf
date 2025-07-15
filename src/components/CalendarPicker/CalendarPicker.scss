@@ -6,13 +6,16 @@
   position: relative;
 
   &__label {
-    font-size: 13px;
-    color: $black-color;
+    font-size: 12px;
+    color: $select-grey-color;
     padding: 13px 13px 13px 46px;
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    
+    height: 48px;
+    display: flex;
+    align-items: center;
+
     @include on-desktop {
       font-size: 16px;
       padding: 16px 24px 16px 56px;
@@ -57,7 +60,6 @@
     padding: 16px 24px;
     left: 0;
     top: -5px;
-  
 
     &-popper {
       z-index: 1;
@@ -146,14 +148,19 @@
       align-items: center;
       justify-content: center;
       z-index: 2;
+      transition: all $effect-duration ease;
+
+      &:hover {
+        transform: scale(1.2);
+      }
 
       &::before {
         content: "";
         display: inline-block;
-        width: 8px;
-        height: 8px;
+        width: 15px;
+        height: 15px;
         border: solid $day-color;
-        border-width: 2px 2px 0 0;
+        border-width: 3px 3px 0 0;
         transform: rotate(45deg);
       }
 

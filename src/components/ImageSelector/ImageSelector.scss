@@ -1,0 +1,43 @@
+@use "../../styles/utils" as *;
+
+.imageSelector {
+  padding-top: 24px;
+  display: flex;
+  gap: 16px;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__item {
+    position: relative;
+    cursor: pointer;
+
+    &--selected {
+      &::before {
+        content: "";
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translate(-50%);
+        width: 24px;
+        height: 24px;
+        background-image: url(/img/icons/select-photo.svg);
+      }
+    }
+  }
+
+  &__img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+    &--selected {
+      border: 2px solid $button-blue-color;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@use "../../styles/utils" as *;
+
+.backPath {
+  &__box{
+    transition: transform $effect-duration ease;
+    cursor: pointer;
+    
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+

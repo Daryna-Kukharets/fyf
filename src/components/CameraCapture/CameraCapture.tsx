@@ -25,7 +25,6 @@ export const CameraCapture: React.FC<Props> = ({ onCapture, onClose }) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // 🔁 Відзеркалення
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
 
@@ -48,10 +47,10 @@ export const CameraCapture: React.FC<Props> = ({ onCapture, onClose }) => {
       />
       <div className="camera-capture__controls">
         <button onClick={handleCapture} className="camera-capture__button">
-          📸 Зробити фото
+          Зробити фото
         </button>
         <button onClick={onClose} className="camera-capture__button camera-capture__button--close">
-          ❌ Закрити
+          Закрити
         </button>
       </div>
     </div>

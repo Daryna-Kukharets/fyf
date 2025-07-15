@@ -1,6 +1,8 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
+import { loginUser } from "../../api/auth";
 
 type Props = {
   toggleLogin: () => void;
@@ -11,6 +13,49 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const togglePasswordVisibility = () => {
+    if (!inputRef.current) return;
+
+    const input = inputRef.current;
+    const cursorPosStart = input.selectionStart;
+    const cursorPosEnd = input.selectionEnd;
+
+    setShowPassword((prev) => !prev);
+
+    setTimeout(() => {
+      input.focus();
+      input.setSelectionRange(cursorPosStart, cursorPosEnd);
+    }, 0);
+  };
+
+  const navigate = useNavigate();
+  const setToken = useAuthStore((state) => state.setToken);
+
+  const handleLogin = async () => {
+    setError(null);
+
+    try {
+      const response = await loginUser({
+        email,
+        password,
+      });
+
+      if (response.token) {
+        setToken(response.token);
+        toggleLogin();
+        navigate("/profile");
+      } else {
+        setError("Невірні облікові дані або помилка авторизації");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Невірний email або пароль.");
+    }
+  };
 
   return (
     <div className={classNames("login", { "login--open": loginOpen })}>
@@ -31,7 +76,7 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => {
           </svg>
         </button>
         <h1 className="login__title">Вхід</h1>
-        <form action="#" method="get" className="login__form">
+        <form className="login__form" onSubmit={(e) => e.preventDefault()}>
           <div className="login__inputs">
             <div className="login__input-block">
               <label htmlFor="login-email" className="login__label">
@@ -40,7 +85,7 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => {
               <input
                 type="email"
                 className="login__input custom-input"
-                id="regist-email"
+                id="login-email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -52,9 +97,10 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => {
               </label>
               <div className="login__input-password">
                 <input
-                  type="password"
+                  ref={inputRef}
+                  type={showPassword ? "text" : "password"}
                   className="login__input custom-input"
-                  id="regist-password"
+                  id="login-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -66,6 +112,7 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   className="login__eye"
+                  onClick={togglePasswordVisibility}
                 >
                   <path
                     d="M12 4.5C7 4.5 2.73 7.61 1 12C2.73 16.39 7 19.5 12 19.5C17 19.5 21.27 16.39 23 12C21.27 7.61 17 4.5 12 4.5ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z"
@@ -93,25 +140,18 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => {
               Нагадати пароль
             </a>
           </div>
+
+          {error && <p className="login__error">{error}</p>}
+
           <div className="login__buttons">
             <button
               type="button"
               className="login__button login__button--login"
+              onClick={handleLogin}
             >
               Увійти
             </button>
             <p className="login__or">Або</p>
-            <button
-              type="button"
-              className="login__button login__button--google"
-            >
-              <img
-                src="img/icons/google.svg"
-                alt="google"
-                className="login__google-img"
-              />
-              Увійти з Google
-            </button>
           </div>
         </form>
         <button

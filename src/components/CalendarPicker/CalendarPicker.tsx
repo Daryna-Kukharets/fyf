@@ -39,7 +39,6 @@ export const CalendarPicker = () => {
         dateFormat="dd.MM.yyyy"
         calendarClassName="calendar-picker__calendar"
         popperPlacement="bottom-start"
-        // popperModifiers={[offset({ mainAxis: 5, crossAxis: -56 })]}
         wrapperClassName="calendar-picker__wrapper"
       />
     </div>

@@ -7,7 +7,7 @@ type Props = {
   onLinkClick?: () => void;
 };
 
-const HEADER_HEIGHT = 80; // Висота хедера в пікселях — змінюй під свій хедер
+const HEADER_HEIGHT = 80;
 
 const scrollToWithOffset = (id: string, offset: number) => {
   const element = document.getElementById(id);
@@ -44,7 +44,6 @@ export const Navigation: React.FC<Props> = ({
     : window.location.pathname + "/";
 
   useEffect(() => {
-    // Якщо є хеш — прокручуємо до елемента при завантаженні
     const hash = window.location.hash.slice(1);
     if (hash) {
       setTimeout(() => scrollToWithOffset(hash, HEADER_HEIGHT), 0);

@@ -20,9 +20,14 @@
 @use "../components/UserInputField/UserInputField";
 @use "../components/PasswordField/PasswordField";
 @use "../components/UserPhotoUploader/UserPhotoUploader";
+@use "../components/Loader/Loader";
+@use "../components/BackPath/BackPath";
+@use "../components/ActivityForm/ActivityForm";
+@use "../components/ImageSelector/ImageSelector";
 
 @use "../pages/Registration/Registration";
 @use "../pages/Profile/Profile";
 @use "../pages/Plans/Plans";
 @use "../pages/Participants/Participants";
+@use "../pages/CreateActivity/CreateActivity";
 
