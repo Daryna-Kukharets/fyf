@@ -10,22 +10,16 @@
   }
 
   &__wrapper {
-    overflow-x: clip;
     position: relative;
 
-    user-select: none;
     max-width: 100%;
     position: relative;
     height: auto;
-    cursor: grab;
     
     &::-webkit-scrollbar {
       display: none;
     }
 
-    &--dragging {
-      cursor: grabbing;
-    }
   }
   &__sort-box {
     display: flex;

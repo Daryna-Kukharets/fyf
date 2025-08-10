@@ -28,8 +28,9 @@
     "react-input-mask-next": "^3.0.0-alpha.12",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.6.0",
-    "react-select": "^5.10.1",
+    "react-select": "^5.10.2",
     "react-webcam": "^7.2.0",
+    "swiper": "^11.2.10",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
