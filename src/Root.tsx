@@ -7,6 +7,8 @@ import { Profile } from "./pages/Profile/Profile";
 import { Plans } from "./pages/Plans/Plans";
 import { Participants } from "./pages/Participants/Participants";
 import { CreateActivity } from "./pages/CreateActivity/CreateActivity";
+import { Reviews } from "./components/Reviews/Reviews";
+import { CreateReviews } from "./pages/CreateReviews/CreateReviews";
 
 export const router = createBrowserRouter(
   [
@@ -38,6 +40,10 @@ export const router = createBrowserRouter(
         {
           path: "create-activity",
           element: <CreateActivity />,
+        },
+        {
+          path: "reviews",
+          element: <CreateReviews />,
         },
       ],
     },

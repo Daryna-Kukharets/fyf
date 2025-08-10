@@ -1,4 +1,5 @@
-type KyivDistrict =
+export type KyivDistrict =
+  | ''
   | 'Голосіївський'
   | 'Дарницький'
   | 'Деснянський'
@@ -11,6 +12,7 @@ type KyivDistrict =
   | 'Шевченківський';
 
   export const kyivDistricts: { value: KyivDistrict; label: string }[] = [
+  { value: '', label: 'Всі райони' },
   { value: 'Голосіївський', label: 'Голосіївський' },
   { value: 'Дарницький', label: 'Дарницький' },
   { value: 'Деснянський', label: 'Деснянський' },

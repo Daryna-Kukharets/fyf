@@ -4,9 +4,11 @@
   max-width: 100%;
   position: relative;
   z-index: 1;
+  
   @include on-desktop {
     padding-top: 32px;
   }
+
   &__wrapper {
     overflow-x: clip;
     position: relative;

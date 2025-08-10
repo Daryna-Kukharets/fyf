@@ -1,27 +1,31 @@
 @use "../../styles/utils" as *;
 
 .activityCard {
-  margin-top: 16px;
   border: 1px solid $border-color;
   border-radius: 12px;
   padding: 12px;
   width: 100%;
   box-sizing: border-box;
-  
+
   @include on-desktop {
-    margin-top: 32px;
-    width: 448px;
+    width: 32.5%;
   }
 
   &__img-box {
     position: relative;
+    width: 100%;
+    height: 177px;
+    overflow: hidden;
+    border-radius: 5px;
+    cursor: pointer;
   }
 
   &__img {
-    width: 100%; 
+    width: 100%;
     height: 177px;
-    border-radius: 5px;
     object-fit: cover;
+
+    @include hover(scale, 1.1);
   }
 
   &__participants {
@@ -29,9 +33,10 @@
     bottom: 10px;
     left: 8px;
     background-color: $button-red-color;
-    width: 32px;
+    width: max-content;
     height: 32px;
-    border-radius: 50%;
+    padding-inline: 5px;
+    border-radius: 12px;
     font-size: 16px;
     font-weight: 400;
     color: $white-color;
@@ -74,13 +79,24 @@
   &__person-img {
     width: 44px;
     height: 44px;
+    box-sizing: border-box;
+    object-fit: cover;
     border: 2px solid $white-color;
     border-radius: 50%;
     margin-left: -10px;
+    position: relative;
 
-    &:first-child {
-      margin-left: 0;
-      position: relative;
+    &:nth-child(1) {
+      z-index: 4;
+      margin-left: 0; // щоб перше не зсувалось
+    }
+    &:nth-child(2) {
+      z-index: 3;
+    }
+    &:nth-child(3) {
+      z-index: 2;
+    }
+    &:nth-child(4) {
       z-index: 1;
     }
   }
@@ -93,6 +109,13 @@
     border-radius: 12px;
     font-size: 20px;
     color: $white-color;
+    cursor: pointer;
+    transition: all $effect-duration ease;
+
+    &:hover {
+      color: $button-blue-color;
+      background-color: $white-color;
+    }
 
     &--cancel {
       color: $grey-color;

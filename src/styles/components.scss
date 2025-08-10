@@ -24,10 +24,13 @@
 @use "../components/BackPath/BackPath";
 @use "../components/ActivityForm/ActivityForm";
 @use "../components/ImageSelector/ImageSelector";
+@use "../components/SkeletonAcivityCard/SkeletonActivityCard";
+@use "../components/PortalError/PortalError";
 
 @use "../pages/Registration/Registration";
 @use "../pages/Profile/Profile";
 @use "../pages/Plans/Plans";
 @use "../pages/Participants/Participants";
 @use "../pages/CreateActivity/CreateActivity";
+@use "../pages/CreateReviews/CreateReviews";
 

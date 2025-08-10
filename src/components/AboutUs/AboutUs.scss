@@ -182,7 +182,17 @@
     padding: 16px 24px;
     position: relative;
     z-index: 5;
+    display: block;
     width: max-content;
+    color: $white-color;
+    font-size: 20px;
+    white-space: nowrap;
+    transition: all $effect-duration ease;
+
+    &:hover {
+      background-color: $white-color;
+      color: $button-blue-color;
+    }
 
     &--1 {
       display: none;
@@ -203,11 +213,5 @@
         display: none;
       }
     }
-  }
-
-  &__button-link {
-    color: $white-color;
-    font-size: 20px;
-    white-space: nowrap;
   }
 }

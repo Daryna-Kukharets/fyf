@@ -51,70 +51,62 @@ export const Navigation: React.FC<Props> = ({
   }, [location]);
 
 useEffect(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((e) => e.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-      if (visible) {
-        const id = visible.target.id;
-        setActive(id);
+    if (visible) {
+      const id = visible.target.id;
+      setActive(id);
 
-        const search = window.location.search;
-
-        if (id === "home") {
-          history.replaceState(null, "", `${basePath || "/"}${search}`);
-        } else {
-          history.replaceState(null, "", `${basePath || "/"}${search}#${id}`);
-        }
-      }
-    },
-    {
-      rootMargin: "0px 0px -30% 0px",
-      threshold: 0.4,
+      const search = window.location.search;
+      history.replaceState(null, "", id === "home"
+        ? `${basePath || "/"}${search}`
+        : `${basePath || "/"}${search}#${id}`
+      );
     }
-  );
+  }, { rootMargin: "0px 0px -30% 0px", threshold: 0.4 });
 
   const targets = links
-    .map((link) => document.getElementById(link.id))
+    .map((l) => document.getElementById(l.id))
     .filter(Boolean) as HTMLElement[];
 
   targets.forEach((el) => observer.observe(el));
 
   return () => observer.disconnect();
-}, []);
+}, [links]);
 
-const handleClick = (id: string) => {
-  setActive(id);
+  const handleClick = (id: string) => {
+    setActive(id);
 
-  const search = window.location.search;
+    const search = window.location.search;
 
-  if (id === "home") {
-    history.replaceState(null, "", `${basePath || "/"}${search}`);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  } else {
-    history.replaceState(null, "", `${basePath || "/"}${search}#${id}`);
-    scrollToWithOffset(id, HEADER_HEIGHT);
-  }
+    if (id === "home") {
+      history.replaceState(null, "", `${basePath || "/"}${search}`);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      history.replaceState(null, "", `${basePath || "/"}${search}#${id}`);
+      scrollToWithOffset(id, HEADER_HEIGHT);
+    }
 
-  if (onLinkClick) {
-    onLinkClick();
-  }
-};
+    if (onLinkClick) {
+      onLinkClick();
+    }
+  };
 
   return (
     <nav className="nav">
       <ul className={`${classForList} nav__list`}>
         {classForList === "nav__list--footer" && (
-          <p className="nav__link nav__link--footer nav__link--bold">
+          <p className="nav__link nav__link--bold">
             Навігація
           </p>
         )}
         {links.map(({ id, label }) => (
           <li className="nav__item" key={id || "home"}>
             <Link
-              to={id === "home" ? "/" :  `/${location.search}#${id}`}
+              to={id === "home" ? "/" : `/${location.search}#${id}`}
               className={`${classForLink} nav__link ${
                 active === id ? "nav__link--active" : ""
               }`}

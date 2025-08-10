@@ -46,30 +46,30 @@ export const UserInputField: React.FC<Props> = ({
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  if (!isPhone) return onChange(event);
+    if (!isPhone) return onChange(event);
 
-  const raw = event.target.value;
-  const digits = raw.replace(/\D/g, "").replace(/^38/, "").slice(0, 10);
-  const masked = formatWithTemplate(digits);
+    const raw = event.target.value;
+    const digits = raw.replace(/\D/g, "").replace(/^38/, "").slice(0, 10);
+    const masked = formatWithTemplate(digits);
 
-  const fakeEvent = {
-    ...event,
-    target: {
-      ...event.target,
-      value: masked,
-    },
+    const fakeEvent = {
+      ...event,
+      target: {
+        ...event.target,
+        value: masked,
+      },
+    };
+
+    onChange(fakeEvent);
+
+    setTimeout(() => {
+      if (inputRef.current) {
+        const pos = masked.indexOf("-");
+        const cursorPos = pos === -1 ? masked.length : pos;
+        inputRef.current.setSelectionRange(cursorPos, cursorPos);
+      }
+    }, 0);
   };
-
-  onChange(fakeEvent);
-
-  setTimeout(() => {
-    if (inputRef.current) {
-      const pos = masked.indexOf("-");
-      const cursorPos = pos === -1 ? masked.length : pos;
-      inputRef.current.setSelectionRange(cursorPos, cursorPos);
-    }
-  }, 0);
-};
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isPhone || e.key !== "Backspace") return;
@@ -89,9 +89,23 @@ export const UserInputField: React.FC<Props> = ({
     onChange(fakeEvent);
   };
 
-  const displayValue = isPhone && (!value || value === "")
-    ? PHONE_TEMPLATE
-    : value;
+  const displayValue =
+    isPhone && (!value || value === "") ? PHONE_TEMPLATE : value;
+
+ const handleMouseDown = (e: React.MouseEvent<HTMLInputElement>) => {
+  if (!isPhone || !inputRef.current) return;
+
+  e.preventDefault(); // Забороняє браузеру ставити курсор туди, куди натиснули
+
+  // Примусово встановлюємо фокус і курсор
+  inputRef.current.focus();
+  const pos = displayValue.indexOf("-");
+  const cursorPos = pos === -1 ? displayValue.length : pos;
+
+  setTimeout(() => {
+    inputRef.current?.setSelectionRange(cursorPos, cursorPos);
+  }, 0);
+};
 
   return (
     <div className="userInputField">
@@ -108,6 +122,7 @@ export const UserInputField: React.FC<Props> = ({
         value={displayValue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onMouseDown={handleMouseDown}
         disabled={disabled}
       />
       {error && <p className="userInputField__error-text">{error}</p>}

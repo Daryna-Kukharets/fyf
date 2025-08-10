@@ -1,17 +1,36 @@
 import { Stars } from "../Stars/Stars";
 
-export const ReviewCard = () => {
+type Props = {
+  title: string;
+  rate: number;
+  comment: string;
+  userName: string;
+  dateTime: string;
+};
+
+export const ReviewCard: React.FC<Props> = ({
+  title,
+  rate,
+  comment,
+  userName,
+  dateTime,
+}) => {
+    const formattedDate = new Date(dateTime).toLocaleDateString("uk-UA", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <div className="reviewCard">
-      <h2 className="reiewCard__title">Пляжний волейбол</h2>
+      <h2 className="reiewCard__title">{title}</h2>
       <div className="reviewCard__stars">
-        <Stars size={24} />
+        <Stars size={24} value={rate}/>
       </div>
-      <h3 className="reviewCard__name">Роман</h3>
-      <p className="reviewCard__date">7 травня 2025</p>
+      <h3 className="reviewCard__name">{userName}</h3>
+      <p className="reviewCard__date">{formattedDate}</p>
       <p className="reviewCard__text">
-        Чудовий колектив, Андрій який створив цю активність він часто збирає
-        людей, тому все було чудово та классно підібране місце, рекомендую!
+        {comment}
       </p>
     </div>
   );

@@ -1,9 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { categories } from "../../types/Categories";
 import { getDateOptions } from "../../types/Date";
 import { forWho } from "../../types/ForWho";
 import { kyivDistricts } from "../../types/KyivDistrict";
 import { regime } from "../../types/Regime";
+import { getDateLabel } from "../../utils/getDateLabel";
 import { CustomSelect } from "../CustomSelect/CustomSelect";
 import { FadeIn } from "../FadeIn/FadeIn";
 
@@ -33,9 +33,10 @@ export const Filters: React.FC<Props> = ({ handleFilterBy, filters }) => {
           <FadeIn direction="left" delay={0.4}>
             <CustomSelect
               options={kyivDistricts}
-              onChange={(val) => handleFilterBy("district", val)}
+              onChange={(val) => handleFilterBy("location", val)}
               value={filters.district}
               classFor={"custom-select__filters"}
+              placeholder="Райони"
             />
           </FadeIn>
           <FadeIn direction="left" delay={0.6}>
@@ -44,6 +45,7 @@ export const Filters: React.FC<Props> = ({ handleFilterBy, filters }) => {
               onChange={(val) => handleFilterBy("category", val)}
               value={filters.category}
               classFor={"custom-select__filters"}
+              placeholder="Категорії"
             />
           </FadeIn>
           <FadeIn direction="left" delay={0.8}>
@@ -51,7 +53,9 @@ export const Filters: React.FC<Props> = ({ handleFilterBy, filters }) => {
               options={dateOptions}
               onChange={(val) => handleFilterBy("date", val)}
               value={filters.date}
+              customLabel={getDateLabel(filters.date)}
               classFor={"custom-select__filters"}
+              placeholder="Дата"
             />
           </FadeIn>
           <FadeIn direction="left" delay={1.0}>
@@ -60,6 +64,7 @@ export const Filters: React.FC<Props> = ({ handleFilterBy, filters }) => {
               onChange={(val) => handleFilterBy("target", val)}
               value={filters.target}
               classFor={"custom-select__filters"}
+              placeholder="Для кого"
             />
           </FadeIn>
           <FadeIn direction="left" delay={1.2}>
@@ -68,6 +73,7 @@ export const Filters: React.FC<Props> = ({ handleFilterBy, filters }) => {
               onChange={(val) => handleFilterBy("regime", val)}
               value={filters.regime}
               classFor={"custom-select__filters"}
+              placeholder="Формат"
             />
           </FadeIn>
         </div>

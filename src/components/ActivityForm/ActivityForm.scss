@@ -2,6 +2,11 @@
 
 .activityForm {
   &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__gap {
     padding-top: 24px;
     display: flex;
     flex-direction: column;
@@ -11,6 +16,12 @@
   &__label {
     font-size: 18px;
     line-height: 26px;
+    position: relative;
+
+    &--location {
+      position: absolute;
+      top: -32px;
+    }
   }
 
   &__input {
@@ -21,9 +32,11 @@
     width: 100%;
     box-sizing: border-box;
     font-size: 16px;
+    margin-top: 8px;
   }
 
   &__location {
+    margin-top: 34px;
     border: 1px solid $border-create-activity-color;
     border-radius: 8px;
     position: relative;
@@ -34,5 +47,27 @@
     top: 50%;
     transform: translateY(-50%);
     left: 16px;
+  }
+
+  &__button {
+    margin-top: 48px;
+    background-color: $button-blue-color;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 16px;
+    color: $white-color;
+  }
+
+  &__date-box {
+    border: 1px solid $border-create-activity-color;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  &__error {
+    position: absolute;
+    bottom: -25px;
+    color: $button-red-color;
+    font-size: 13px;
   }
 }

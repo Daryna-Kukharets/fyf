@@ -1,7 +1,7 @@
 @use "../../styles/utils" as *;
 
 .createActivity {
-  padding-top: 32px;
+  padding-block: 32px;
 
   @include container;
 

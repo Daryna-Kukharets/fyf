@@ -1,21 +1,104 @@
+import { Link } from "react-router-dom";
 import { ReviewCard } from "../ReviewCard/ReviewCard";
 import { Stars } from "../Stars/Stars";
+import { useEffect, useState } from "react";
+import { getReview } from "../../api/auth";
+import { useAuthStore } from "../../store/authStore";
+import { PortalError } from "../PortalError/PortalError";
+
+type Review = {
+  id: number;
+  title: string;
+  rate: number;
+  comment: string;
+  user: {
+    firstName: string;
+  };
+  dateTime: string;
+};
 
 export const Reviews = () => {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const token = useAuthStore((state) => state.token);
+  const isAuthenticated = Boolean(token);
+
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((sum, review) => sum + review.rate, 0) / reviews.length
+      : 0;
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      setLoading(true);
+      try {
+        const response = await getReview();
+        setReviews(response.content || []);
+      } catch (err) {
+        setError("Помилка завантаження відгуків");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  const handleCreateClick = (e: React.MouseEvent) => {
+    if (!isAuthenticated) {
+      e.preventDefault(); // Заборонити перехід по лінку
+      setShowError(true);
+    }
+  };
+
+  const visibleReviews = showAll ? reviews : reviews.slice(0, 3);
+
   return (
     <section id="reviews" className="reviews">
       <h1 className="reviews__title">Відгуки користувачів</h1>
       <div className="reviews__stars">
-        <Stars />
-        <p className="reviews__count">14 відгуків</p>
+        <Stars value={averageRating} />
+        <p className="reviews__count">{`${reviews.length} відгуків`}</p>
       </div>
-      <ReviewCard />
+      {loading && <p>Завантаження...</p>}
+      {error && <p className="error">{error}</p>}
+      <div className="reviews__list">
+        {visibleReviews.map((review) => (
+          <ReviewCard
+            key={review.id}
+            title={review.title}
+            rate={review.rate}
+            comment={review.comment}
+            userName={review.user.firstName}
+            dateTime={review.dateTime}
+          />
+        ))}
+      </div>
       <div className="reviews__buttons">
         <div className="reviews__empty"></div>
-        <button type="button" className="reviews__button">
-          Переглянути всі відгуки
-        </button>
-        <button type="button" className="reviews__create">
+        {reviews.length > 3 && (
+          <button
+            type="button"
+            className="reviews__button"
+            onClick={() => setShowAll((prev) => !prev)}
+          >
+            {showAll ? "Згорнути відгуки" : "Переглянути всі відгуки"}
+          </button>
+        )}
+        <Link
+          to={isAuthenticated ? "/reviews" : "#"}
+          className="reviews__create"
+          onClick={handleCreateClick}
+          title={
+            !isAuthenticated
+              ? "Щоб створити активність, потрібно увійти"
+              : undefined
+          }
+        >
           <svg
             width="16"
             height="16"
@@ -28,8 +111,9 @@ export const Reviews = () => {
               fill="white"
             />
           </svg>
-        </button>
+        </Link>
       </div>
+      {showError && <PortalError onClose={() => setShowError(false)} />}
     </section>
   );
 };

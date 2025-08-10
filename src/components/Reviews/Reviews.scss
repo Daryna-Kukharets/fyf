@@ -45,6 +45,13 @@
     border-radius: 12px;
     font-size: 16px;
     color: $white-color;
+    cursor: pointer;
+     transition: all $effect-duration ease;
+
+    &:hover {
+      color: $button-blue-color;
+      background-color: $white-color;
+    }
 
     @include on-desktop {
       padding: 16px 133px;
@@ -56,10 +63,26 @@
     height: 44px;
     background-color: #000;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include hover(scale, 1.1);
 
     @include on-desktop {
       width: 56px;
       height: 56px;
+    }
+  }
+
+  &__list {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+
+    @include on-desktop {
+      margin-top: 32px;
     }
   }
 }

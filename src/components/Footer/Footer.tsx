@@ -21,7 +21,7 @@ export const Footer = () => {
               <nav className="footer__nav">
                 <ul className="nav__list nav__list--footer">
                   <li className="nav__nav-item">
-                    <p className="nav__link nav__link--footer nav__link--bold">
+                    <p className="nav__link nav__link--bold">
                       Юридична інформація
                     </p>
                   </li>
@@ -47,7 +47,7 @@ export const Footer = () => {
               <nav className="footer__nav">
                 <ul className="nav__list nav__list--footer">
                   <li className="nav__nav-item">
-                    <p className="nav__link nav__link--footer nav__link--bold">
+                    <p className="nav__link nav__link--bold">
                       Зв'язатися
                     </p>
                   </li>

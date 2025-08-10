@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import type { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { reverseGeocode } from "../../utils/reverseGeocode";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -16,45 +17,61 @@ L.Icon.Default.mergeOptions({
 
 type LocationPickerProps = {
   value: string;
-  onChange: (address: string) => void;
+  onChange: (location: {
+    address: string;
+    lat: number;
+    lng: number;
+    district?: string;
+  }) => void;
   classFor?: string;
 };
 
-export const LocationPicker = ({ value, onChange, classFor }: LocationPickerProps) => {
+export const LocationPicker = ({
+  value,
+  onChange,
+  classFor,
+}: LocationPickerProps) => {
   const [showMap, setShowMap] = useState(false);
   const [markerPos, setMarkerPos] = useState<LatLngExpression | null>(null);
   const [inputValue, setInputValue] = useState(value);
 
-  const reverseGeocode = async (lat: number, lon: number) => {
-  const apiKey = "60cdfaba3dcd48249afbea0885bf1831";
-  try {
-    const res = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKey}`
-    );
-    const data = await res.json();
-    if (data.results?.length) {
-      setInputValue(data.results[0].formatted);
-      onChange(data.results[0].formatted);
-    }
-  } catch (err) {
-    console.error("Reverse geocode error:", err);
+const handleMapClick = async (lat: number, lng: number) => {
+  const result = await reverseGeocode(lat, lng);
+  if (result) {
+    const { address, district } = result;
+    const addressWithDistrict = district ? `${district}, ${address}` : address;
+
+    setInputValue(addressWithDistrict);
+
+    onChange({
+      address,
+      lat,
+      lng,
+      district,
+    });
   }
 };
 
   const MapClickHandler = () => {
     useMapEvents({
       click(e) {
-        setMarkerPos([e.latlng.lat, e.latlng.lng]);
-        reverseGeocode(e.latlng.lat, e.latlng.lng);
+        const { lat, lng } = e.latlng;
+        setMarkerPos([lat, lng]);
+        handleMapClick(lat, lng);
         setShowMap(false);
       },
     });
     return null;
   };
 
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
   return (
     <div>
       <input
+        id="location-input"
         type="text"
         value={inputValue}
         placeholder="Твоя локація"

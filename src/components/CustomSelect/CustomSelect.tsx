@@ -10,6 +10,8 @@ type Props = {
   onChange?: (value: string) => void;
   value?: string;
   classFor?: string;
+  placeholder?: string;
+  customLabel?: string;
 };
 
 export const CustomSelect: React.FC<Props> = ({
@@ -17,45 +19,46 @@ export const CustomSelect: React.FC<Props> = ({
   onChange,
   value,
   classFor = "",
+  placeholder = "",
+  customLabel,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const handleOptionClick = (optionValue: string) => {
-    if (onChange) {
-      onChange(optionValue);
-    }
+  const handleToggle = () => setIsOpen((prev) => !prev);
+  const handleSelect = (val: string) => {
+    onChange?.(val);
     setIsOpen(false);
   };
 
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-      setIsOpen(false);
-    }
-  };
-
   useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+    const handleClickOutside = (e: MouseEvent) => {
+      if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
     };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const selectedOption = options.find((option) => option.value === value);
+
   return (
-    <div className="custom-select" ref={selectRef}>
+    <div
+      ref={selectRef}
+      className={`custom-select ${classFor || ""}`}
+      onClick={handleToggle}
+    >
       <div
-        className={`custom-select__arrow ${classFor} ${isOpen ? "custom-select__arrow--rotated" : ""}`}
-        onClick={handleToggle}
-      >
-        {
-          (options.find((option) => option.value === value) || options[0])
-            ?.label
-        }
+        className={`custom-select__arrow ${
+          isOpen ? "custom-select__arrow--rotated" : ""
+        }`}
+      />
+      <div className="custom-select__value">
+        {value
+          ? options.find((opt) => opt.value === value)?.label
+          : placeholder}
       </div>
       {isOpen && (
         <ul className="custom-select__options">
@@ -63,7 +66,7 @@ export const CustomSelect: React.FC<Props> = ({
             <li
               key={option.value}
               className="custom-select__option"
-              onClick={() => handleOptionClick(option.value)}
+              onClick={() => handleSelect(option.value)}
             >
               {option.label}
             </li>

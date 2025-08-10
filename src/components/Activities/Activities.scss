@@ -14,4 +14,47 @@
       font-size: 64px;
     }
   }
+
+  &__list {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+
+    @include on-desktop {
+      margin-top: 32px;
+    }
+  }
+
+  &__button {
+    display: block;
+    margin: 48px auto;
+    padding: 12px 32px;
+    background-color: $button-blue-color;
+    border-radius: 12px;
+    font-size: 16px;
+    color: $white-color;
+    cursor: pointer;
+     transition: all $effect-duration ease;
+
+    &:hover {
+      color: $button-blue-color;
+      background-color: $white-color;
+    }
+
+    @include on-desktop {
+      padding: 16px 133px;
+    }
+  }
+
+  &__nothing {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+
+    @include on-desktop {
+      font-size: 24px;
+    }
+  }
 }

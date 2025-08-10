@@ -47,14 +47,12 @@ export const AboutUs = () => {
           </div>
 
           <FadeIn direction="up" delay={0.4}>
-            <button
-              type="button"
+            <a
+              href="#activities"
               className="aboutUs__button aboutUs__button--1"
             >
-              <a href="#" className="aboutUs__button-link">
-                Переглянути події
-              </a>
-            </button>
+              Переглянути події
+            </a>
           </FadeIn>
         </div>
         <div className="aboutUs__block-second">
@@ -102,11 +100,9 @@ export const AboutUs = () => {
         </div>
       </div>
       <FadeIn direction="up" delay={1.0}>
-        <button type="button" className="aboutUs__button aboutUs__button--2">
-          <a href="#" className="aboutUs__button-link">
-            Переглянути події
-          </a>
-        </button>
+        <a href="#activities" className="aboutUs__button aboutUs__button--2">
+          Переглянути події
+        </a>
       </FadeIn>
     </section>
   );

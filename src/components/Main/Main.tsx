@@ -1,32 +1,73 @@
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { categories } from "../../types/Categories";
 import { CalendarPicker } from "../CalendarPicker/CalendarPicker";
 import { LocationPicker } from "../LocationPicker/LocationPicker";
 import { FadeIn } from "../FadeIn/FadeIn";
 import { CustomSelect } from "../CustomSelect/CustomSelect";
 import { useActivityStore } from "../../store/useActivityStore";
+import { KyivDistrict, kyivDistricts } from "../../types/KyivDistrict";
+import { useAuthStore } from "../../store/authStore";
+import { PortalError } from "../PortalError/PortalError";
 
 export const Main = () => {
-  const [location, setLocation] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { setAddress, setCategory } = useActivityStore();
+  const { setAddress, setCategory, setDate } = useActivityStore();
   const navigate = useNavigate();
 
   const category = searchParams.get("category") || "";
+  const locationFromParams = searchParams.get("location") || "";
+  const dateFromParams = searchParams.get("date") || "";
 
-  const handleCreate = () => {
-    setLocation(location);
-    setCategory(category);
-    navigate("/create-activity", { replace: true });
+  const [location, setLocation] = useState({
+    address: locationFromParams,
+    lat: 0,
+    lng: 0,
+  });
 
+  const [localDate, setLocalDate] = useState<Date | null>(
+    dateFromParams ? new Date(dateFromParams) : null
+  );
+
+  const [showError, setShowError] = useState(false);
+
+  const token = useAuthStore((state) => state.token);
+  const isAuthenticated = Boolean(token);
+
+  const extractDistrict = (address: string): KyivDistrict => {
+    const found = kyivDistricts.find((district) => {
+      if (!district.value) {
+        return false;
+      }
+
+      const includes = address.includes(district.value);
+
+      return includes;
+    });
+    return found?.value || "";
   };
 
-  const handleFilterBy = (option: string) => {
+  const handleCreate = () => {
+    if (!isAuthenticated) {
+      setShowError(true);
+      return;
+    }
+
+    setAddress(location);
+    setCategory(category);
+    setDate(localDate);
+    navigate("/create-activity");
+  };
+
+  const handleFilterChange = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
 
-    params.set("category", option);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
 
     setSearchParams(params);
   };
@@ -49,8 +90,13 @@ export const Main = () => {
                 <div className="main__input-container">
                   <div className="main__input-box">
                     <LocationPicker
-                      value={location}
-                      onChange={(address) => setLocation(address)}
+                      value={location.address}
+                      onChange={(newLocation) => {
+                        setLocation(newLocation);
+
+                        const district = extractDistrict(newLocation.address);
+                        handleFilterChange("location", district);
+                      }}
                     />
                     <svg
                       width="24"
@@ -68,10 +114,14 @@ export const Main = () => {
                   </div>
                   <div className="main__input-box">
                     <CustomSelect
-                      options={categories}
-                      onChange={handleFilterBy}
+                      options={categories.slice(1)}
+                      onChange={(val) => {
+                        setCategory(val);
+                        handleFilterChange("category", val);
+                      }}
                       value={category}
                       classFor={"custom-select__header"}
+                      placeholder="Активність:"
                     />
                     <svg
                       width="24"
@@ -88,7 +138,16 @@ export const Main = () => {
                     </svg>
                   </div>
                   <div className="main__input-box">
-                    <CalendarPicker />
+                    <CalendarPicker
+                      date={localDate}
+                      setDate={(date) => {
+                        setLocalDate(date);
+                        handleFilterChange(
+                          "date",
+                          date?.toISOString().split("T")[0] || ""
+                        );
+                      }}
+                    />
                     <svg
                       width="24"
                       height="25"
@@ -105,18 +164,26 @@ export const Main = () => {
                   </div>
                 </div>
                 <div className="main__buttons">
-                  <button
-                    type="button"
+                  <a
+                    href="#activities"
                     className="main__button main__button--activity"
                   >
                     Події
-                  </button>
+                  </a>
                   <button
+                    type="button"
                     onClick={handleCreate}
                     className="main__button main__button--create"
+                    title={
+                      !isAuthenticated
+                        ? "Щоб створити активність, потрібно увійти"
+                        : undefined
+                    }
                   >
                     Створити
                   </button>
+
+                  {showError && <PortalError onClose={() => setShowError(false)} />}
                 </div>
               </form>
             </FadeIn>

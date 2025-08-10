@@ -273,7 +273,7 @@ export const UsersForm: React.FC<UserFormProps> = ({
 
   const handleLogout = async () => {
     try {
-      await logoutUser(); 
+      await logoutUser();
       logout();
       navigate("/");
     } catch (error) {
@@ -287,7 +287,7 @@ export const UsersForm: React.FC<UserFormProps> = ({
     if (!confirmed) return;
 
     try {
-      await deleteUser(); 
+      await deleteUser();
       logout();
       navigate("/");
     } catch (error) {

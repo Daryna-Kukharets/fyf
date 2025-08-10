@@ -3,8 +3,8 @@ import { BackPath } from "../../components/BackPath/BackPath";
 import { UsersForm } from "../../components/UsersForm/UsersForm";
 import { ProfileTop } from "../../components/ProfileTop/ProfileTop";
 import { useAuthStore } from "../../store/authStore";
-import { getProfile } from "../../api/getProfile";
 import { Loader } from "../../components/Loader/Loader";
+import { getProfile } from "../../api/auth";
 
 export const Profile = () => {
   const token = useAuthStore((state) => state.token);
@@ -29,7 +29,7 @@ export const Profile = () => {
       if (!token) return;
 
       try {
-        const user = await getProfile(token);
+        const user = await getProfile();
         setValues((prev) => ({
           ...prev,
           email: user.email || "",

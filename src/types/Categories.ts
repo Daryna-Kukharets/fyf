@@ -1,5 +1,5 @@
 type Categories =
-  | 'Всі'
+  | ''
   | 'Творчість'
   | 'Освіта'
   | 'Спорт'
@@ -9,7 +9,7 @@ type Categories =
   | 'Волонтерство';
 
   export const categories: { value: Categories; label: string }[] = [
-  { value: 'Всі', label: 'Всі' },
+  { value: '', label: 'Всі категорії' },
   { value: 'Творчість', label: 'Творчість' },
   { value: 'Освіта', label: 'Освіта' },
   { value: 'Спорт', label: 'Спорт' },

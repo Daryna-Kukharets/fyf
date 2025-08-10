@@ -48,6 +48,23 @@
 
     &--footer {
       color: #000;
+      position: relative;
+
+      &:before {
+        content: "";
+        position: absolute;
+        height: 1px;
+        width: 0%;
+        background-color: #000;
+        bottom: 0;
+        opacity: 0;
+        transition: all $effect-duration ease;
+      }
+
+      &:hover:before {
+        opacity: 1;
+        width: 100%;
+      }
     }
 
     &--bold {

@@ -23,19 +23,21 @@ export const UserPhotoUploader: React.FC<Props> = ({
 }) => {
   return (
     <div className="userPhotoUploader">
-      {isProfile ? (
-        <img
-          src={photoPath || "img/icons/take-photo.svg"}
-          alt="avatar"
-          className="userPhotoUploader__photo"
-        />
-      ) : (
-        <img
-          src={photo || "img/icons/take-photo.svg"}
-          alt="avatar"
-          className="userPhotoUploader__photo"
-        />
-      )}
+      <div className="userPhotoUploader__photo-wrapper">
+        {isProfile ? (
+          <img
+            src={photoPath || "img/icons/take-photo.svg"}
+            alt="avatar"
+            className="userPhotoUploader__photo"
+          />
+        ) : (
+          <img
+            src={photo || "img/icons/take-photo.svg"}
+            alt="avatar"
+            className="userPhotoUploader__photo"
+          />
+        )}
+      </div>
       {!isProfile && (
       <div className="userPhotoUploader__buttons">
         <label className="userPhotoUploader__button userPhotoUploader__button--add">

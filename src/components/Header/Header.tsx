@@ -4,7 +4,7 @@ import { BurgerMenu } from "../BurgerMenu/BurgerMenu";
 import { Link, useLocation } from "react-router-dom";
 import { Login } from "../Login/Login";
 import { useAuthStore } from "../../store/authStore";
-import { getProfile } from "../../api/getProfile";
+import { getProfile } from "../../api/auth";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -67,17 +67,18 @@ export const Header = () => {
   }, [location.state]);
 
   useEffect(() => {
-    if (!user && token) {
-      getProfile(token)
-        .then((userData) => {
-          setUser(userData);
-        })
-        .catch((err) => {
-          console.error("Не вдалося отримати профіль:", err);
-        });
+    if (!token || user) {
+      return;
     }
-  }, [user, token]);
 
+    getProfile()
+      .then((userData) => {
+        setUser(userData);
+      })
+      .catch((err) => {
+        console.error("Не вдалося отримати профіль:", err);
+      });
+  }, [token, user]);
 
   return (
     <>

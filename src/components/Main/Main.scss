@@ -89,6 +89,7 @@
     }
 
     &--location {
+      color: $button-blue-color;
       &::placeholder {
         color: $button-blue-color;
       }
@@ -96,8 +97,9 @@
 
     &--location-activity {
       font-size: 16px;
-       &::placeholder {
-        color: $dark-blue-color;
+      color: $dark-blue-color;
+      &::placeholder {
+         color: $dark-blue-color;
       }
     };
   }
@@ -152,6 +154,14 @@
       &:hover {
         background-color: $white-color;
         color: $button-red-color;
+      }
+    }
+    
+    &--disabled {
+      cursor: not-allowed;
+      &:hover {
+        background-color: $button-red-color;
+        color: $white-color;
       }
     }
   }

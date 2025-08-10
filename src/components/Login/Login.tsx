@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import { loginUser } from "../../api/auth";
+import { getProfile, loginUser } from "../../api/auth";
 
 type Props = {
   toggleLogin: () => void;
@@ -34,25 +34,22 @@ export const Login: React.FC<Props> = ({ toggleLogin, loginOpen }) => {
 
   const navigate = useNavigate();
   const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const handleLogin = async () => {
-    setError(null);
-
     try {
-      const response = await loginUser({
-        email,
-        password,
-      });
-
+      const response = await loginUser({ email, password });
       if (response.token) {
         setToken(response.token);
+        // Після установки токена одразу отримуємо профіль
+        const profile = await getProfile();
+        setUser(profile);
         toggleLogin();
         navigate("/profile");
       } else {
         setError("Невірні облікові дані або помилка авторизації");
       }
     } catch (err) {
-      console.error("Login error:", err);
       setError("Невірний email або пароль.");
     }
   };
