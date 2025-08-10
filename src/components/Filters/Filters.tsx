@@ -9,6 +9,7 @@ import { FadeIn } from "../FadeIn/FadeIn";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useState } from "react";
+import Select from 'react-select';
 
 type FilterState = {
   district: string;
@@ -23,10 +24,14 @@ type Props = {
   filters: FilterState;
 };
 
+type Option = {
+  value: string;
+  label: string;
+};
 
 export const Filters: React.FC<Props> = ({ handleFilterBy, filters }) => {
   const dateOptions = getDateOptions();
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
   return (
     <article className="filters">
@@ -44,12 +49,10 @@ export const Filters: React.FC<Props> = ({ handleFilterBy, filters }) => {
 
           <SwiperSlide style={{ width: "auto" }}>
             <FadeIn direction="left" delay={0.4}>
-              <CustomSelect
+              <Select
+                     defaultValue={selectedOption}
+        onChange={setSelectedOption}
                 options={kyivDistricts}
-                onChange={(val) => handleFilterBy("location", val)}
-                value={filters.district}
-                classFor={"custom-select__filters"}
-                placeholder="Райони"
               />
             </FadeIn>
           </SwiperSlide>

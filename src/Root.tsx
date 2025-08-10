@@ -9,6 +9,7 @@ import { Participants } from "./pages/Participants/Participants";
 import { CreateActivity } from "./pages/CreateActivity/CreateActivity";
 import { Reviews } from "./components/Reviews/Reviews";
 import { CreateReviews } from "./pages/CreateReviews/CreateReviews";
+import { CookieFiles } from "./info/CookieFiles";
 
 export const router = createBrowserRouter(
   [
@@ -44,6 +45,10 @@ export const router = createBrowserRouter(
         {
           path: "reviews",
           element: <CreateReviews />,
+        },
+        {
+          path: "cookieFiles",
+          element: <CookieFiles />,
         },
       ],
     },

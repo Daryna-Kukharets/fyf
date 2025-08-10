@@ -1,0 +1,7 @@
+@use "../styles/utils" as *;
+
+.info {
+  padding-top: 32px;
+
+  @include container;
+}

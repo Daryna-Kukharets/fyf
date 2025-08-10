@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Navigation } from "../Navigation/Navigation";
 
 export const Footer = () => {
@@ -35,11 +36,9 @@ export const Footer = () => {
                       Умови використання
                     </a>
                   </li>
-                  <li className="footer__nav-item">
-                    <a href="#" className="nav__link nav__link--footer">
+                  <Link to="cookieFiles" className="footer__nav-item nav__link nav__link--footer">
                       Файли cookie
-                    </a>
-                  </li>
+                  </Link>
                 </ul>
               </nav>
             </div>
