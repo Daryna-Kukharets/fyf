@@ -39,8 +39,7 @@ export const CalendarPicker: React.FC<Props> = ({
 
     if (pickerStage === "date") {
       const newDate = new Date(newVal);
-      newDate.setHours(12); // Базовий час (можеш змінити)
-      newDate.setMinutes(0);
+      newDate.setHours(12); 
       setSelectedDate(newDate);
       setDate?.(newDate);
       if (isCreateActivityPage) setPickerStage("time");

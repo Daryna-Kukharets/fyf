@@ -33,6 +33,15 @@
     box-sizing: border-box;
     font-size: 16px;
     margin-top: 8px;
+    outline: none;
+
+    &:focus {
+      border: 2px solid $black-color;
+    }
+
+    &--error {
+      border-color: $button-red-color;
+    }
   }
 
   &__location {
@@ -40,6 +49,14 @@
     border: 1px solid $border-create-activity-color;
     border-radius: 8px;
     position: relative;
+
+    &:focus-within {
+      border: 2px solid $black-color;
+    }
+
+    &--error {
+      border-color: $button-red-color;
+    }
   }
 
   &__location-img {
@@ -56,12 +73,26 @@
     border-radius: 12px;
     font-size: 16px;
     color: $white-color;
+    cursor: pointer;
+    transition: background-color $effect-duration ease;
+
+    &:hover {
+      background-color: $dark-blue-color;
+    }
   }
 
   &__date-box {
     border: 1px solid $border-create-activity-color;
     border-radius: 8px;
     position: relative;
+
+      &:focus-within {
+    border: 2px solid $black-color; // або інший потрібний колір
+  }
+
+    &--error {
+      border-color: $button-red-color;
+    }
   }
 
   &__error {

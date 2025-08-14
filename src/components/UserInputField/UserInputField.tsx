@@ -26,23 +26,23 @@ export const UserInputField: React.FC<Props> = ({
   const isPhone = id.includes("phone");
 
   const formatWithTemplate = (digits: string) => {
-    const template = PHONE_TEMPLATE;
     let result = "";
     let digitIndex = 0;
 
-    for (let i = 0; i < template.length; i++) {
-      if (template[i] === "-") {
-        if (digitIndex < digits.length) {
-          result += digits[digitIndex++];
-        } else {
-          result += "-";
-        }
+    for (let i = 0; i < PHONE_TEMPLATE.length; i++) {
+      if (PHONE_TEMPLATE[i] === "-") {
+        result += digits[digitIndex++] || "-";
       } else {
-        result += template[i];
+        result += PHONE_TEMPLATE[i];
       }
     }
 
     return result;
+  };
+
+  const formatPhoneFromServer = (phone: string) => {
+    const digits = phone.replace(/\D/g, "").replace(/^38/, "").slice(0, 10);
+    return formatWithTemplate(digits);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,23 +89,22 @@ export const UserInputField: React.FC<Props> = ({
     onChange(fakeEvent);
   };
 
-  const displayValue =
-    isPhone && (!value || value === "") ? PHONE_TEMPLATE : value;
+   const displayValue = isPhone
+    ? formatPhoneFromServer(value || "")
+    : value;
+    
+  const handleMouseDown = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (!isPhone || !inputRef.current) return;
 
- const handleMouseDown = (e: React.MouseEvent<HTMLInputElement>) => {
-  if (!isPhone || !inputRef.current) return;
+    e.preventDefault(); 
+    inputRef.current.focus();
+    const pos = displayValue.indexOf("-");
+    const cursorPos = pos === -1 ? displayValue.length : pos;
 
-  e.preventDefault(); // Забороняє браузеру ставити курсор туди, куди натиснули
-
-  // Примусово встановлюємо фокус і курсор
-  inputRef.current.focus();
-  const pos = displayValue.indexOf("-");
-  const cursorPos = pos === -1 ? displayValue.length : pos;
-
-  setTimeout(() => {
-    inputRef.current?.setSelectionRange(cursorPos, cursorPos);
-  }, 0);
-};
+    setTimeout(() => {
+      inputRef.current?.setSelectionRange(cursorPos, cursorPos);
+    }, 0);
+  };
 
   return (
     <div className="userInputField">

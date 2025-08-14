@@ -34,13 +34,12 @@ export const useAuthStore = create<AuthState>()(
         setToken: (token) => set({ token }),
         setUser: (user) => set({ user }),
         clearAuthState,
-        logout: clearAuthState, // <- реалізація функції logout
+        logout: clearAuthState, 
       };
     },
     {
       name: "auth-storage",
       merge: (persistedState: any, currentState) => {
-        // Якщо токена немає — видаляємо користувача
         if (!persistedState?.token) {
           return {
             ...currentState,

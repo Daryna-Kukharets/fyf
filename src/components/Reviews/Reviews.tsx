@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { getReview } from "../../api/auth";
 import { useAuthStore } from "../../store/authStore";
 import { PortalError } from "../PortalError/PortalError";
+import { FadeIn } from "../FadeIn/FadeIn";
+import { SkeletonActivityCard } from "../SkeletonAcivityCard/SkeletonActivityCard";
+import { SkeletonReviewCard } from "../SkeletonReviewCard/SkeletonReviewCard";
 
 type Review = {
   id: number;
@@ -33,10 +36,18 @@ export const Reviews = () => {
       : 0;
 
   useEffect(() => {
+    const cached = localStorage.getItem("reviews");
+    if (cached) {
+      setReviews(JSON.parse(cached));
+      setLoading(false);
+    }
+
     const fetchReviews = async () => {
       setLoading(true);
       try {
         const response = await getReview();
+        const data = response.content || [];
+        localStorage.setItem("reviews", JSON.stringify(data));
         setReviews(response.content || []);
       } catch (err) {
         setError("Помилка завантаження відгуків");
@@ -50,7 +61,7 @@ export const Reviews = () => {
 
   const handleCreateClick = (e: React.MouseEvent) => {
     if (!isAuthenticated) {
-      e.preventDefault(); // Заборонити перехід по лінку
+      e.preventDefault();
       setShowError(true);
     }
   };
@@ -59,60 +70,79 @@ export const Reviews = () => {
 
   return (
     <section id="reviews" className="reviews">
-      <h1 className="reviews__title">Відгуки користувачів</h1>
+      <FadeIn direction="left" delay={0.2}>
+        <h1 className="reviews__title">Відгуки користувачів</h1>
+      </FadeIn>
       <div className="reviews__stars">
-        <Stars value={averageRating} />
-        <p className="reviews__count">{`${reviews.length} відгуків`}</p>
+        <FadeIn direction="left" delay={0.4}>
+          <Stars value={averageRating} />
+        </FadeIn>
+        <FadeIn direction="right" delay={0.4}>
+          <p className="reviews__count">{`${reviews.length} відгуків`}</p>
+        </FadeIn>
       </div>
-      {loading && <p>Завантаження...</p>}
       {error && <p className="error">{error}</p>}
-      <div className="reviews__list">
-        {visibleReviews.map((review) => (
-          <ReviewCard
-            key={review.id}
-            title={review.title}
-            rate={review.rate}
-            comment={review.comment}
-            userName={review.user.firstName}
-            dateTime={review.dateTime}
-          />
-        ))}
-      </div>
-      <div className="reviews__buttons">
-        <div className="reviews__empty"></div>
-        {reviews.length > 3 && (
-          <button
-            type="button"
-            className="reviews__button"
-            onClick={() => setShowAll((prev) => !prev)}
-          >
-            {showAll ? "Згорнути відгуки" : "Переглянути всі відгуки"}
-          </button>
-        )}
-        <Link
-          to={isAuthenticated ? "/reviews" : "#"}
-          className="reviews__create"
-          onClick={handleCreateClick}
-          title={
-            !isAuthenticated
-              ? "Щоб створити активність, потрібно увійти"
-              : undefined
-          }
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z"
-              fill="white"
-            />
-          </svg>
-        </Link>
-      </div>
+      {loading ? (
+        <SkeletonReviewCard />
+      ) : (
+        <>
+          <div className="reviews__list">
+            {visibleReviews.map((review, index) => (
+              <FadeIn direction="up" key={review.id} delay={index * 0.1}>
+                <div className="reviews__card">
+                  <ReviewCard
+                    title={review.title}
+                    rate={review.rate}
+                    comment={review.comment}
+                    userName={review.user.firstName}
+                    dateTime={review.dateTime}
+                  />
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+          <div className="reviews__buttons">
+            <div className="reviews__empty"></div>
+            {reviews.length > 3 && !loading && (
+              <FadeIn direction="up" delay={0.2}>
+                <button
+                  type="button"
+                  className="reviews__button"
+                  onClick={() => setShowAll((prev) => !prev)}
+                >
+                  {showAll ? "Згорнути відгуки" : "Переглянути всі відгуки"}
+                </button>
+              </FadeIn>
+            )}
+            <FadeIn direction="right" delay={0.2}>
+              <Link
+                to={isAuthenticated ? "/reviews" : "#"}
+                className="reviews__create"
+                onClick={handleCreateClick}
+                title={
+                  !isAuthenticated
+                    ? "Щоб створити активність, потрібно увійти"
+                    : undefined
+                }
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z"
+                    fill="white"
+                  />
+                </svg>
+              </Link>
+            </FadeIn>
+          </div>
+        </>
+      )}
+
       {showError && <PortalError onClose={() => setShowError(false)} />}
     </section>
   );

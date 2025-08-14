@@ -9,25 +9,29 @@
   overflow-y: auto;
   background-color: $white-color;
   z-index: 100;
-  transform: translateX(100%);
   opacity: 0;
-  transition: transform $effect-duration ease, opacity $effect-duration ease;
+  transform: translatex(80px);
+  pointer-events: none;
+  transition: opacity $effect-duration ease, transform $effect-duration ease;
 
   @include on-desktop {
     background-color: rgba(0, 0, 0, 0.342);
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: translateX(0);
   }
 
   &--open {
-    transform: translateX(0);
     opacity: 1;
+    transform: translatex(0);
+    pointer-events: auto;
   }
 
   &__box {
     padding-top: 24px;
     padding-bottom: 80px;
+    border-radius: 12px;
 
     @include container;
 
@@ -37,6 +41,15 @@
       width: 60vw;
       background-color: $white-color;
       padding-bottom: 44px;
+
+      transform: scaleY(0) scaleX(0);
+      transform-origin: center top;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+
+      .login--open & {
+        transform: scaleY(1) scaleX(1);
+        transition: transform 0.2s ease 0.2s, opacity 0.4s ease;
+      }
     }
   }
 
@@ -60,6 +73,7 @@
   }
 
   &__form {
+    position: relative;
     padding-top: 62px;
     display: flex;
     flex-direction: column;
@@ -73,6 +87,7 @@
   }
 
   &__input-block {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -88,43 +103,16 @@
     transform: translateY(-50%);
     right: 24px;
     cursor: pointer;
-    transition: transform $effect-duration ease;
-    
+    transition: fill $effect-duration ease;
+
     &:hover {
-      transform: scale(1.2);
+      fill: $black-color;
     }
   }
 
   &__label {
     font-size: 18px;
     line-height: 26px;
-  }
-
-  &__password-block {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__check-block {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  &__check {
-    width: 24px;
-    height: 24px;
-  }
-
-  &__remember {
-    font-size: 14px;
-    line-height: 24px;
-
-    @include on-desktop {
-      font-size: 16px;
-    }
   }
 
   &__buttons {
@@ -143,7 +131,7 @@
     &--login {
       background-color: $button-blue-color;
       color: $white-color;
-      
+
       &:hover {
         background-color: $dark-blue-color;
       }
@@ -153,9 +141,10 @@
       margin-top: 32px;
       font-weight: 700;
       height: auto;
-
-      @include on-desktop {
-        margin-top: 48px;
+      transition: color $effect-duration ease;
+      
+      &:hover {
+        color: $button-blue-color;
       }
     }
   }
@@ -167,6 +156,16 @@
 
     @include on-desktop {
       padding-top: 24px;
+    }
+  }
+
+  &__error {
+    position: absolute;
+    bottom: -22px;
+    color: $button-red-color;
+
+    &--mistake {
+      bottom: 120px;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { categories } from "../../types/Categories";
 import { forWho } from "../../types/ForWho";
 import { regime } from "../../types/Regime";
@@ -11,8 +11,14 @@ import { sendRequest } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 
 export const ActivityForm = () => {
-  const { address, date: storedDate, category: storedCategory } = useActivityStore();
-  const [selectedCategory, setSelectedCategory] = useState<string>(storedCategory || "");
+  const {
+    address,
+    date: storedDate,
+    category: storedCategory,
+  } = useActivityStore();
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    storedCategory || ""
+  );
   const [selectedForWho, setSelectedForWho] = useState<string>("");
   const [selectedRegime, setSelectedRegime] = useState<string>("");
 
@@ -35,9 +41,9 @@ export const ActivityForm = () => {
   });
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
-  console.log("🛬 Дата, що прийшла з Zustand:", storedDate);
-  return storedDate || null;
-});
+    console.log("🛬 Дата, що прийшла з Zustand:", storedDate);
+    return storedDate || null;
+  });
   const [errors, setErrors] = useState({
     name: "",
     forWho: "",
@@ -50,6 +56,20 @@ export const ActivityForm = () => {
   });
 
   const navigate = useNavigate();
+
+  const [openSelect, setOpenSelect] = useState<string | null>(null);
+  const toggleSelect = (key: string) => {
+    setOpenSelect((prev) => (prev === key ? null : key));
+  };
+  const handleChangeAndClose = (
+    setter: (val: string) => void,
+    field: string,
+    val: string
+  ) => {
+    setter(val);
+    setErrors((prev) => ({ ...prev, [field]: "" }));
+    setOpenSelect(null);
+  };
 
   const handleSubmit = async () => {
     const newErrors = {
@@ -69,11 +89,11 @@ export const ActivityForm = () => {
 
     setErrors(newErrors);
 
-     const hasErrors = Object.values(newErrors).some((error) => error !== "");
-  if (hasErrors) {
-    console.warn("Форма невалідна. Помилки:", newErrors);
-    return;
-  }
+    const hasErrors = Object.values(newErrors).some((error) => error !== "");
+    if (hasErrors) {
+      console.warn("Форма невалідна. Помилки:", newErrors);
+      return;
+    }
     const activityData = {
       name,
       forWho: selectedForWho,
@@ -86,7 +106,7 @@ export const ActivityForm = () => {
       localDateTime: selectedDate!.toISOString(),
     };
 
-     console.log("Дані для створення активності:", activityData);
+    console.log("Дані для створення активності:", activityData);
 
     try {
       const res = await sendRequest({
@@ -122,13 +142,15 @@ export const ActivityForm = () => {
               Категорія
               <CustomSelect
                 options={categories.slice(1)}
-                classFor={"custom-select__activity"}
+                classFor={`custom-select__activity ${errors.category && "custom-select__activity--error"}`}
                 value={selectedCategory}
-                onChange={(val) => {
-                  setSelectedCategory(val);
-                  setErrors((prev) => ({ ...prev, category: "" }));
-                }}
+                onChange={(val) =>
+                  handleChangeAndClose(setSelectedCategory, "category", val)
+                }
                 placeholder="Зробіть вибір"
+                isOpen={openSelect === "category"}
+                onToggle={() => toggleSelect("category")}
+                place="form"
               />
               {errors.category && (
                 <p className="activityForm__error">{errors.category}</p>
@@ -138,13 +160,15 @@ export const ActivityForm = () => {
               Для кого підходить
               <CustomSelect
                 options={forWho.slice(1)}
-                classFor={"custom-select__activity"}
+                classFor={`custom-select__activity ${errors.forWho && "custom-select__activity--error"}`}
                 value={selectedForWho}
-                onChange={(val) => {
-                  setSelectedForWho(val);
-                  setErrors((prev) => ({ ...prev, forWho: "" }));
-                }}
+                onChange={(val) =>
+                  handleChangeAndClose(setSelectedForWho, "forWho", val)
+                }
                 placeholder="Зробіть вибір"
+                isOpen={openSelect === "forWho"}
+                onToggle={() => toggleSelect("forWho")}
+                place="form"
               />
               {errors.forWho && (
                 <p className="activityForm__error">{errors.forWho}</p>
@@ -154,13 +178,15 @@ export const ActivityForm = () => {
               Формат участі
               <CustomSelect
                 options={regime.slice(1)}
-                classFor={"custom-select__activity"}
+                classFor={`custom-select__activity ${errors.regime && "custom-select__activity--error"}`}
                 value={selectedRegime}
-                onChange={(val) => {
-                  setSelectedRegime(val);
-                  setErrors((prev) => ({ ...prev, regime: "" }));
-                }}
+                onChange={(val) =>
+                  handleChangeAndClose(setSelectedRegime, "regime", val)
+                }
                 placeholder="Зробіть вибір"
+                isOpen={openSelect === "regime"}
+                onToggle={() => toggleSelect("regime")}
+                place="form"
               />
               {errors.regime && (
                 <p className="activityForm__error">{errors.regime}</p>
@@ -170,7 +196,7 @@ export const ActivityForm = () => {
               Назва
               <input
                 type="text"
-                className="activityForm__input"
+                className={`activityForm__input ${errors.name && "activityForm__input--error"}`}
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
@@ -185,7 +211,7 @@ export const ActivityForm = () => {
               Кількість учасників
               <input
                 type="number"
-                className="activityForm__input"
+                className={`activityForm__input ${errors.name && "activityForm__input--error"}`}
                 value={count}
                 onChange={(e) => {
                   const val = e.target.value;
@@ -201,7 +227,7 @@ export const ActivityForm = () => {
             </label>
             <div className="activityForm__date">
               <label className="activityForm__label">Дата та час</label>
-              <div className="activityForm__date-box">
+              <div className={`activityForm__date-box ${errors.date && "activityForm__date-box--error"}`}>
                 <CalendarPicker
                   date={selectedDate}
                   setDate={(date) => {
@@ -215,7 +241,7 @@ export const ActivityForm = () => {
                 )}
               </div>
             </div>
-            <div className="activityForm__location">
+            <div className={`activityForm__location ${errors.address && "activityForm__location--error"}`}>
               <label
                 htmlFor="location-input"
                 className="activityForm__label activityForm__label--location"

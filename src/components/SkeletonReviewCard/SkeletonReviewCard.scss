@@ -1,0 +1,53 @@
+@use "../../styles/utils" as *;
+
+.skeletonReviewCard {
+  &__list {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+
+    @include on-desktop {
+      grid-template-columns: repeat(3, 1fr); 
+      align-items: stretch;
+      margin-top: 32px;
+    }
+  }
+
+  &__card {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 24px 32px;
+  }
+
+  &__title {
+    height: 28px;
+    width: 60%;
+  }
+
+  &__stars {
+    margin-top: 8px;
+    height: 24px;
+    width: 50%;
+  }
+
+  &__name {
+    margin-top: 24px;
+    height: 18px;
+    width: 30%;
+  }
+
+  &__date {
+    margin-top: 16px;
+    height: 18px;
+    width: 40%;
+  }
+
+  &__review {
+    margin-top: 16px;
+    height: 20px;
+    width: 100%;
+  }
+}

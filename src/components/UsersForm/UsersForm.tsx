@@ -5,7 +5,7 @@ import { deleteUser, logoutUser, registerUser } from "../../api/auth";
 import { base64ToFile } from "../../utils/base64ToFile";
 import { UserInputField } from "../UserInputField/UserInputField";
 import { PasswordField } from "../PasswordField/PasswordField";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 
 type UserFormProps = {
@@ -27,8 +27,8 @@ type UserFormProps = {
 };
 
 function validateEmail(email: string): boolean {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  return re.test(email);
+  const res = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  return res.test(email);
 }
 
 export const UsersForm: React.FC<UserFormProps> = ({
@@ -43,6 +43,9 @@ export const UsersForm: React.FC<UserFormProps> = ({
   const [photo, setPhoto] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const { setToken, setUser } = useAuthStore();
+  const [loadingLogout, setLoadingLogout] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingReg, setLoadingReg] = useState(false); 
 
   const [errors, setErrors] = useState<{
     email?: string;
@@ -222,6 +225,8 @@ export const UsersForm: React.FC<UserFormProps> = ({
       setErrors(newErrors);
       return;
     }
+    
+    setLoadingReg(true);
 
     if (!values.password || !values.repeatPassword) {
       return;
@@ -266,12 +271,15 @@ export const UsersForm: React.FC<UserFormProps> = ({
       } else {
         alert("Щось пішло не так. Спробуйте ще раз.");
       }
+    } finally {
+      setLoadingReg(false);
     }
   };
 
   const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = async () => {
+      setLoadingLogout(true);
     try {
       await logoutUser();
       logout();
@@ -279,12 +287,15 @@ export const UsersForm: React.FC<UserFormProps> = ({
     } catch (error) {
       console.error("Помилка при виході:", error);
       alert("Не вдалося вийти з акаунта.");
+    } finally {
+      setLoadingLogout(false);
     }
   };
 
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm("Ви впевнені, що хочете видалити акаунт?");
     if (!confirmed) return;
+    setLoadingDelete(true);
 
     try {
       await deleteUser();
@@ -292,7 +303,8 @@ export const UsersForm: React.FC<UserFormProps> = ({
       navigate("/");
     } catch (error) {
       console.error("Помилка при видаленні акаунта:", error);
-      alert("Не вдалося видалити акаунт.");
+    } finally {
+      setLoadingDelete(false);
     }
   };
 
@@ -378,15 +390,17 @@ export const UsersForm: React.FC<UserFormProps> = ({
               type="button"
               className="usersForm__button usersForm__button--logout"
               onClick={handleLogout}
+              disabled={loadingLogout}
             >
-              Вихід
+              {loadingLogout ? "Завантаження..." : "Вихід"}
             </button>
             <button
               type="button"
               className="usersForm__button usersForm__button--delete"
               onClick={handleDeleteAccount}
+              disabled={loadingDelete}
             >
-              Видалити акаунт
+               {loadingDelete ? "Завантаження..." : "Видалити акаунт"}
             </button>
           </div>
         ) : (
@@ -411,7 +425,10 @@ export const UsersForm: React.FC<UserFormProps> = ({
                 id="regist-check"
               />
               <label htmlFor="regist-check" className="usersForm__label">
-                Я погоджуюся з правилами використання
+                {`Я погоджуюся з `}
+                <Link to="../termsOfUse" className="usersForm__link">
+                  правилами використання
+                </Link>
               </label>
 
               {errors.checked && (
@@ -421,8 +438,9 @@ export const UsersForm: React.FC<UserFormProps> = ({
             <button
               type="submit"
               className="usersForm__button usersForm__button--reg"
+              disabled={loadingReg}
             >
-              Реєстрація
+              {loadingReg ? "Завантаження..." : "Реєстрація"}
             </button>
           </>
         )}

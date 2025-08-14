@@ -18,4 +18,17 @@
       -webkit-box-shadow: none;
       transition: background-color 5000s ease 0s;
     }
+
+    &[disabled] {
+      color: $black-color;
+      border-color: $black-color;
+    }
+
+    &:focus {
+      border-color: $black-color;
+    }
+
+    &__error {
+      border-color: $button-red-color;
+    }
   }

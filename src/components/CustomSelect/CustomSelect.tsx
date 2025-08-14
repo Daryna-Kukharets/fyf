@@ -12,6 +12,9 @@ type Props = {
   classFor?: string;
   placeholder?: string;
   customLabel?: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  place?: string;
 };
 
 export const CustomSelect: React.FC<Props> = ({
@@ -21,34 +24,36 @@ export const CustomSelect: React.FC<Props> = ({
   classFor = "",
   placeholder = "",
   customLabel,
+  isOpen,
+  onToggle,
+  place,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const handleToggle = () => setIsOpen((prev) => !prev);
   const handleSelect = (val: string) => {
     onChange?.(val);
-    setIsOpen(false);
+    if (isOpen && onToggle) onToggle();
   };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
+        if (isOpen && onToggle) onToggle();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [isOpen, onToggle]);
 
   const selectedOption = options.find((option) => option.value === value);
 
   return (
     <div
       ref={selectRef}
-      className={`custom-select ${classFor || ""}`}
-      onClick={handleToggle}
+      className={`custom-select ${classFor || ""} ${
+        place === "form" && isOpen ? "custom-select__activity--focused" : ""
+      }`}
+      onClick={onToggle}
     >
       <div
         className={`custom-select__arrow ${
@@ -56,9 +61,13 @@ export const CustomSelect: React.FC<Props> = ({
         }`}
       />
       <div className="custom-select__value">
-        {value
-          ? options.find((opt) => opt.value === value)?.label
-          : placeholder}
+        {value ? (
+          options.find((opt) => opt.value === value)?.label
+        ) : place === "main" ? (
+          <span className="custom-select__placeholder">{placeholder}</span>
+        ) : (
+          placeholder
+        )}
       </div>
       {isOpen && (
         <ul className="custom-select__options">

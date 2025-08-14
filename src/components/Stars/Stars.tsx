@@ -4,7 +4,7 @@ type StarsProps = {
   size?: number;
   value?: number;
   onSelect?: (value: number) => void;
-  interactive?: boolean; // додаємо проп
+  interactive?: boolean;
 };
 
 export const Stars: React.FC<StarsProps> = ({
@@ -20,7 +20,7 @@ export const Stars: React.FC<StarsProps> = ({
   );
 
   const handleClick = (index: number) => {
-    if (!interactive) return; // якщо не інтерактивні — ігноруємо клік
+    if (!interactive) return; 
     const rating = index + 1;
     setSelectedStar(rating);
     onSelect?.(rating);
@@ -32,13 +32,11 @@ export const Stars: React.FC<StarsProps> = ({
         {Array.from({ length: starsCount }).map((_, index) => {
           const current = index + 1;
 
-          let fillColor = "#D0D5DD"; // сіра
+          let fillColor = "#D0D5DD";
 
           if (interactive && hoveredStar !== null) {
-            // ховер тільки якщо інтерактивно
             fillColor = current <= hoveredStar ? "#FE7062" : "#D0D5DD";
           } else {
-            // якщо не інтерактивно — показуємо рейтинг по value з частковими зірками
             if (value && current <= Math.floor(value)) {
               fillColor = "#FE7062";
             } else if (value && current - value < 1 && current - value > 0) {

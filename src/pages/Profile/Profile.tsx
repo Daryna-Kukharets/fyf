@@ -5,6 +5,7 @@ import { ProfileTop } from "../../components/ProfileTop/ProfileTop";
 import { useAuthStore } from "../../store/authStore";
 import { Loader } from "../../components/Loader/Loader";
 import { getProfile } from "../../api/auth";
+import { FadeIn } from "../../components/FadeIn/FadeIn";
 
 export const Profile = () => {
   const token = useAuthStore((state) => state.token);
@@ -17,14 +18,14 @@ export const Profile = () => {
     repeatPassword: "",
   });
 
-  const [photoPath, setPhotoPath] = useState('');
+  const [photoPath, setPhotoPath] = useState("");
   const [loading, setLoading] = useState(true);
 
   const handleChange = (field: keyof typeof values, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
   };
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchUserData = async () => {
       if (!token) return;
 
@@ -38,7 +39,7 @@ export const Profile = () => {
           phoneNumber: user.phoneNumber || "",
           photoPath: user.photoPath || "",
         }));
-        setPhotoPath( user.photoPath || "");
+        setPhotoPath(user.photoPath || "");
       } catch (error) {
         console.error("Помилка при отриманні профілю:", error);
       } finally {
@@ -51,17 +52,23 @@ export const Profile = () => {
 
   return (
     <section id="profile" className="profile">
-      <BackPath />
-      <ProfileTop />
+      <FadeIn direction="left" delay={0.2}>
+        <BackPath />
+      </FadeIn>
+      <FadeIn direction="left" delay={0.4}>
+        <ProfileTop />
+      </FadeIn>
       {loading ? (
         <Loader />
       ) : (
-        <UsersForm
-          mode="profile"
-          photoPath={photoPath}
-          values={values}
-          onChange={handleChange}
-        />
+        <FadeIn direction="left" delay={0.6}>
+          <UsersForm
+            mode="profile"
+            photoPath={photoPath}
+            values={values}
+            onChange={handleChange}
+          />
+        </FadeIn>
       )}
     </section>
   );

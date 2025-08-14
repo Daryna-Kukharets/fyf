@@ -50,7 +50,7 @@
       color: #000;
       position: relative;
 
-      &:before {
+      &::before {
         content: "";
         position: absolute;
         height: 1px;
@@ -61,7 +61,7 @@
         transition: all $effect-duration ease;
       }
 
-      &:hover:before {
+      &:hover::before {
         opacity: 1;
         width: 100%;
       }

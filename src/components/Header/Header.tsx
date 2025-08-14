@@ -183,7 +183,7 @@ export const Header = () => {
         </div>
       </header>
       <BurgerMenu toggleMenu={toggleMenu} menuOpen={menuOpen} />
-      {loginOpen && <Login loginOpen={loginOpen} toggleLogin={toggleLogin} />}
+      <Login loginOpen={loginOpen} toggleLogin={toggleLogin} />
     </>
   );
 };

@@ -26,16 +26,13 @@ export const Footer = () => {
                       Юридична інформація
                     </p>
                   </li>
-                  <li className="footer__nav-item">
-                    <a href="#" className="nav__link nav__link--footer">
+                
+                 <Link to="privacyPolicy" className="footer__nav-item nav__link nav__link--footer">
                       Політика Конфіденційності
-                    </a>
-                  </li>
-                  <li className="footer__nav-item">
-                    <a href="#" className="nav__link nav__link--footer">
+                  </Link>
+                 <Link to="termsOfUse" className="footer__nav-item nav__link nav__link--footer">
                       Умови використання
-                    </a>
-                  </li>
+                  </Link>
                   <Link to="cookieFiles" className="footer__nav-item nav__link nav__link--footer">
                       Файли cookie
                   </Link>

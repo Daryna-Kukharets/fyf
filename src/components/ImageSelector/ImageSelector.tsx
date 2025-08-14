@@ -26,13 +26,15 @@ export const ImageSelector: React.FC<Props> = ({ photoId, onSelect }) => {
           }`}
           onClick={() => handleSelect(id)}
         >
-          <img
-            src={src}
-            alt={`Image ${id}`}
-            className={`imageSelector__img ${
-              photoId === id ? "imageSelector__img--selected" : ""
-            }`}
-          />
+          <div className="imageSelector__box">
+            <img
+              src={src}
+              alt={`Image ${id}`}
+              className={`imageSelector__img ${
+                photoId === id ? "imageSelector__img--selected" : ""
+              }`}
+            />
+          </div>
         </div>
       ))}
     </div>

@@ -48,6 +48,15 @@ export const Main = () => {
     return found?.value || "";
   };
 
+  const [openSelect, setOpenSelect] = useState<string | null>(null);
+  const toggleSelect = (key: string) => {
+    setOpenSelect((prev) => (prev === key ? null : key));
+  };
+  const handleChangeAndClose = (key: string, value: string) => {
+    handleFilterChange(key, value);
+    setOpenSelect(null);
+  };
+
   const handleCreate = () => {
     if (!isAuthenticated) {
       setShowError(true);
@@ -117,11 +126,14 @@ export const Main = () => {
                       options={categories.slice(1)}
                       onChange={(val) => {
                         setCategory(val);
-                        handleFilterChange("category", val);
+                        handleChangeAndClose("category", val);
                       }}
                       value={category}
                       classFor={"custom-select__header"}
                       placeholder="Активність:"
+                      place="main"
+                        isOpen={openSelect === "category"}
+                      onToggle={() => toggleSelect("category")}
                     />
                     <svg
                       width="24"
@@ -183,7 +195,9 @@ export const Main = () => {
                     Створити
                   </button>
 
-                  {showError && <PortalError onClose={() => setShowError(false)} />}
+                  {showError && (
+                    <PortalError onClose={() => setShowError(false)} />
+                  )}
                 </div>
               </form>
             </FadeIn>

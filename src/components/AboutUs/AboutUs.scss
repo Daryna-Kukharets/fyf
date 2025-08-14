@@ -135,12 +135,16 @@
     }
 
     &--3 {
+      width: 140px;
+      height: 145px;
       left: -63%;
       margin-top: -87px;
 
       @include on-desktop {
+        width: auto;
+        height: auto;
         left: -83%;
-        margin-top: -170px;
+        margin-top: -180px;
       }
     }
   }
@@ -164,7 +168,7 @@
       height: 140px;
       width: 180px;
       margin-top: -110px;
-      left: -5%;
+      left: -15%;
     }
   }
 
@@ -187,11 +191,10 @@
     color: $white-color;
     font-size: 20px;
     white-space: nowrap;
-    transition: all $effect-duration ease;
+    transition: background-color $effect-duration ease;
 
     &:hover {
-      background-color: $white-color;
-      color: $button-blue-color;
+      background-color: $dark-blue-color;
     }
 
     &--1 {

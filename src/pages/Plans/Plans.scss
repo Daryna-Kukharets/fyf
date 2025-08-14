@@ -21,6 +21,8 @@
 
   &__button {
     text-align: center;
+
+    @include hover (scale, 1.2);
   }
 
   &__text {
@@ -29,6 +31,24 @@
     @include on-desktop {
       font-size: 16px;
     }
+  }
+  
+ &__list {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+    
+    @include on-desktop {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+      margin-top: 32px;
+    }
+  }
+
+  &__card {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
   }
 }
 

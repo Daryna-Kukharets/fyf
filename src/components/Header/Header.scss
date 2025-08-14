@@ -114,6 +114,8 @@
     border-radius: 50%;
     object-fit: cover;
 
+    @include hover(scale, 1.2);
+
     @include on-desktop {
       width: 56px;
       height: 56px;

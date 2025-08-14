@@ -18,7 +18,7 @@
     flex-shrink: 0;
     border-radius: 50%;
     overflow: hidden;
-    
+
     @include on-desktop {
       width: 150px;
       height: 150px;
@@ -50,6 +50,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all $effect-duration ease;
 
     @include on-desktop {
       height: 56px;
@@ -63,6 +64,10 @@
       width: auto;
       background-color: $button-blue-color;
       color: $white-color;
+
+      &:hover {
+        background-color: $dark-blue-color;
+      }
     }
 
     &--take {
@@ -70,6 +75,11 @@
       max-width: 200px;
       width: auto;
       border: 1px solid $dark-blue-color;
+
+       &:hover {
+        background-color: $dark-blue-color;
+        color: $white-color;
+      }
     }
   }
 }

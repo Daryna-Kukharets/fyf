@@ -4,6 +4,7 @@
   background-color: $white-color;
   border-radius: 12px;
   position: relative;
+  cursor: pointer;
 
   &__label {
     font-size: 12px;
@@ -83,7 +84,7 @@
       background-color: transparent;
       border-bottom: none;
       text-align: center;
-      width: max-content; // ширина по контенту, щоб стрілки точно прилягали до місяця
+      width: max-content; 
       margin: 0 auto;
     }
 
@@ -202,7 +203,7 @@
 
     &__time-container {
       margin-left: 24px;
-      height: auto !important; // уникнути обрізання
+      height: auto !important; 
 
       .react-datepicker__time {
         display: flex;

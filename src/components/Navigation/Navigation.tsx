@@ -45,37 +45,53 @@ export const Navigation: React.FC<Props> = ({
 
   useEffect(() => {
     const hash = window.location.hash.slice(1);
-    if (hash) {
-      setTimeout(() => scrollToWithOffset(hash, HEADER_HEIGHT), 0);
-    }
+    if (!hash) return;
+
+    let attempts = 0;
+    const interval = setInterval(() => {
+      const el = document.getElementById(hash);
+      if (el || attempts > 10) {
+        clearInterval(interval);
+        if (el) scrollToWithOffset(hash, HEADER_HEIGHT);
+      }
+      attempts++;
+    }, 100);
   }, [location]);
 
-useEffect(() => {
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter((e) => e.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  useEffect(() => {
+       if (window.location.pathname !== "/" && window.location.pathname !== "/fyf/") return;
 
-    if (visible) {
-      const id = visible.target.id;
-      setActive(id);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-      const search = window.location.search;
-      history.replaceState(null, "", id === "home"
-        ? `${basePath || "/"}${search}`
-        : `${basePath || "/"}${search}#${id}`
-      );
-    }
-  }, { rootMargin: "0px 0px -30% 0px", threshold: 0.4 });
+        if (visible) {
+          const id = visible.target.id;
+          setActive(id);
 
-  const targets = links
-    .map((l) => document.getElementById(l.id))
-    .filter(Boolean) as HTMLElement[];
+          const search = window.location.search;
+          history.replaceState(
+            null,
+            "",
+            id === "home"
+              ? `${basePath || "/"}${search}`
+              : `${basePath || "/"}${search}#${id}`
+          );
+        }
+      },
+      { rootMargin: "0px 0px -30% 0px", threshold: 0.4 }
+    );
 
-  targets.forEach((el) => observer.observe(el));
+    const targets = links
+      .map((l) => document.getElementById(l.id))
+      .filter(Boolean) as HTMLElement[];
 
-  return () => observer.disconnect();
-}, [links]);
+    targets.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [links]);
 
   const handleClick = (id: string) => {
     setActive(id);
@@ -86,8 +102,10 @@ useEffect(() => {
       history.replaceState(null, "", `${basePath || "/"}${search}`);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      history.replaceState(null, "", `${basePath || "/"}${search}#${id}`);
-      scrollToWithOffset(id, HEADER_HEIGHT);
+        if (window.location.pathname === "/" || window.location.pathname === "/fyf/") {
+        history.replaceState(null, "", `${basePath || "/"}${search}#${id}`);
+        scrollToWithOffset(id, HEADER_HEIGHT);
+      }
     }
 
     if (onLinkClick) {
@@ -99,9 +117,7 @@ useEffect(() => {
     <nav className="nav">
       <ul className={`${classForList} nav__list`}>
         {classForList === "nav__list--footer" && (
-          <p className="nav__link nav__link--bold">
-            Навігація
-          </p>
+          <p className="nav__link nav__link--bold">Навігація</p>
         )}
         {links.map(({ id, label }) => (
           <li className="nav__item" key={id || "home"}>

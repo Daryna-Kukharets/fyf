@@ -14,7 +14,6 @@ export const reverseGeocode = async (
 
     const data = await res.json();
 
-    // Повна адреса
     const address = data.display_name || "";
 
     const district =

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { reverseGeocode } from "../../utils/reverseGeocode";
+import { useLocation, useNavigate } from "react-router-dom";
 import { participateInActivity, refuseActivity } from "../../api/auth";
 import { useAuthStore } from "../../store/authStore";
 import { PortalError } from "../PortalError/PortalError";
+import { Loader } from "../Loader/Loader";
 
 type Activity = {
   id: number;
@@ -44,9 +44,11 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
   const [currentParticipantsCount, setCurrentParticipantsCount] = useState(
     activity.currentNumberOfPeople
   );
-
   const [showError, setShowError] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   const token = useAuthStore((state) => state.token);
   const isAuthenticated = Boolean(token);
 
@@ -61,8 +63,6 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
     minute: "2-digit",
   });
 
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const handleParticipate = async () => {
     if (!isAuthenticated) {
@@ -75,7 +75,6 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
       await participateInActivity(activity.id);
       setIsJoined(true);
       setCurrentParticipantsCount((prev) => prev + 1);
-      console.log("Успішно записано на активність!");
     } catch (error: any) {
       console.log("Не вдалося записатися: " + (error?.message || "помилка"));
     } finally {
@@ -111,9 +110,27 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
     }
   };
 
+  useEffect(() => {
+    const img = new Image();
+
+    img.src = `img/activity/activity-${activity.imgId}.png`;
+    
+    img.onload = () => {
+      setIsLoading(true);
+    }
+
+    img.onerror = () => {
+      setIsLoading(true);
+    };
+  }, [activity.imgId]);
+
+  if(!isLoading) {
+    return <Loader />
+  }
+
   return (
     <>
-      <div className="activityCard" onClick={handleClick}>
+      <div className="activityCard">
         <div className="activityCard__img-box">
           <img
             className="activityCard__img"
@@ -147,8 +164,11 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
             </p>
           </div>
           {!isActivity && (
-            <div className="activityCard__img-box">
-              {activity.participants.map((participant, index) => (
+            <div
+              className="activityCard__img-box activityCard__participants-box"
+              onClick={handleClick}
+            >
+              {activity.participants.slice(0, 4).map((participant, index) => (
                 <img
                   key={index}
                   src={participant.photoPath || "img/icons/take-photo.svg"}
@@ -156,6 +176,11 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
                   className="activityCard__person-img"
                 />
               ))}
+              {activity.participants.length > 4 && (
+                <div className="activityCard__extra-participants">
+                  +{activity.participants.length - 4}
+                </div>
+              )}
             </div>
           )}
           <div className="activityCard__info">

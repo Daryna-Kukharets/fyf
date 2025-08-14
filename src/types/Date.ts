@@ -5,7 +5,7 @@ type DateOption = {
 
 export const getDateOptions = (includeDate?: string): DateOption[] => {
   const options: DateOption[] = [
-    { value: "", label: "Всі дати" }, // додали "всі дати"
+    { value: "", label: "Всі дати" }, 
   ];
 
   const today = new Date();

@@ -1,15 +1,15 @@
 @use "../../styles/utils" as *;
+
 .custom-select {
   position: relative;
   cursor: pointer;
 
   &__arrow {
-
     &::before {
       content: "";
       position: absolute;
       top: 50%;
-       transform: translateY(-50%) rotate(0deg);
+      transform: translateY(-50%) rotate(0deg);
       right: 24px;
       width: 24px;
       height: 24px;
@@ -41,10 +41,8 @@
       font-size: 16px;
       height: 56px;
       padding-left: 56px;
-
     }
   }
-
 
   &__placeholder {
     color: $select-grey-color;
@@ -52,7 +50,7 @@
 
   &__filters {
     background-color: $light-grey-color;
-    padding: 15px 56px 15px 24px; 
+    padding: 15px 56px 15px 24px;
     height: 48px;
     box-sizing: border-box;
     border-radius: 12px;
@@ -72,6 +70,14 @@
     color: $black-color;
     padding: 12px 16px;
     margin-top: 8px;
+
+    &--focused {
+      border: 2px solid $black-color;
+    }
+
+    &--error {
+      border-color: $button-red-color;
+    }
   }
 
   &__options {

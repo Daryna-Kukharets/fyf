@@ -3,6 +3,7 @@ import { BackPath } from "../../components/BackPath/BackPath";
 import { getMyActivities } from "../../api/auth";
 import { useLocation } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader";
+import { FadeIn } from "../../components/FadeIn/FadeIn";
 
 type Participant = {
   id: number;
@@ -25,7 +26,6 @@ export const Participants = () => {
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
-  // Витягуємо activityId з URL
   const searchParams = new URLSearchParams(location.search);
   const activityId = searchParams.get("activityId");
 
@@ -50,33 +50,49 @@ export const Participants = () => {
     (activity) => activity.id === Number(activityId)
   );
 
-  // Учасники для відображення (якщо немає активності — порожній масив)
   const participants = currentActivity?.participants || [];
   const authorId = currentActivity?.author?.id;
+
   return (
     <div className="participants">
-      <BackPath />
-      <h1 className="participants__title">Список учасників</h1>
+      <FadeIn direction="left" delay={0.2}>
+        <BackPath />
+      </FadeIn>
+      <FadeIn direction="left" delay={0.4}>
+        <h1 className="participants__title">Список учасників</h1>
+      </FadeIn>
       {isLoading ? (
         <Loader />
       ) : (
-        participants.map((participant) => {
-          const isAuthor = participant.id === authorId;
-          return (
-            <div className="participants__card" key={participant.id}>
-              {isAuthor && <div className="participants__main"></div>}
-              <img
-                src={participant.photoPath || "img/icons/take-photo.svg"}
-                alt="photo"
-                className="participants__img"
-              />
-              <div className="participants__info">
-                <h3 className="participants__name">{participant.firstName}</h3>
-                <p className="participants__phone">{participant.phoneNumber}</p>
-              </div>
-            </div>
-          );
-        })
+        <div className="participants__list">
+          {participants.map((participant, index) => {
+            const isAuthor = participant.id === authorId;
+            return (
+              <FadeIn
+                key={participant.id}
+                direction="left"
+                delay={0.1 * index + 0.5}
+              >
+                <div className="participants__card">
+                  {isAuthor && <div className="participants__main"></div>}
+                  <img
+                    src={participant.photoPath || "img/icons/take-photo.svg"}
+                    alt="photo"
+                    className="participants__img"
+                  />
+                  <div className="participants__info">
+                    <h3 className="participants__name">
+                      {participant.firstName}
+                    </h3>
+                    <p className="participants__phone">
+                      {participant.phoneNumber}
+                    </p>
+                  </div>
+                </div>
+              </FadeIn>
+            );
+          })}
+        </div>
       )}
     </div>
   );

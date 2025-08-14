@@ -29,6 +29,7 @@ type Activity = {
 
 export const Activities = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
@@ -56,11 +57,16 @@ export const Activities = () => {
   useEffect(() => {
     const cached = localStorage.getItem("activities");
     if (cached) {
-      setActivities(JSON.parse(cached));
-      setLoading(false); // Показуємо одразу кеш
+      const parsed = JSON.parse(cached);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        setActivities(parsed);
+        setLoading(false);
+        return; 
+      }
     }
 
     const fetchActivities = async () => {
+      setLoading(true);
       try {
         const response = await getAllActivities();
         const data = response.content || [];
@@ -112,33 +118,42 @@ export const Activities = () => {
         <h1 className="activities__title">Події в місті</h1>
       </FadeIn>
       <Filters handleFilterBy={handleFilterBy} filters={filters} />
-      {loading && activities.length === 0 ?  (
-          <SkeletonActivityCard />
-      ) : (
+      {loading ? (
+        <SkeletonActivityCard />
+      ) : activitiesToRender.length > 0 ? (
         <>
           <div className="activities__list">
-            {activitiesToRender.length > 0 ? (
-              activitiesToRender.map((activity) => (
-                <ActivityCard
-                  key={activity.id}
-                  activity={activity}
-                  mode="activity"
-                />
-              ))
-            ) : (
-              <p className="activities__nothing">Нічого не знайдено за заданими фільтрами :(</p>
-            )}
+            {activitiesToRender.map((activity, index) => (
+              <FadeIn
+                key={activity.id}
+                direction="up"
+                delay={0.1 * index} 
+              >
+                <div className="activities__card">
+                  <ActivityCard activity={activity} mode="activity" />
+                </div>
+              </FadeIn>
+            ))}
           </div>
           {filteredActivities.length > 3 && (
-           <button
-            type="button"
-            className="activities__button"
-              onClick={() => setShowAll((prev) => !prev)}
-          >
-            {showAll ? "Згорнути активності" : "Переглянути всі активності"}
-          </button>
+            <FadeIn
+              direction="up"
+              delay={0.2}
+            >
+              <button
+                type="button"
+                className="activities__button"
+                onClick={() => setShowAll((prev) => !prev)}
+              >
+                {showAll ? "Згорнути активності" : "Переглянути всі активності"}
+              </button>
+            </FadeIn>
           )}
         </>
+      ) : (
+        <p className="activities__nothing">
+          {`Нічого не знайдено за заданими фільтрами :(`}
+        </p>
       )}
     </section>
   );

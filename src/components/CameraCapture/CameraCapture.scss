@@ -1,3 +1,5 @@
+@use "../../styles/utils" as *;
+
 .camera-capture {
   display: flex;
   flex-direction: column;
@@ -28,14 +30,25 @@
 
   &__button {
     padding: 16px 24px;
-    background-color: #007bff;
-    color: white;
+    background-color: $button-blue-color;
+    color: $white-color;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-  }
+    transition: all $effect-duration ease;
 
-  &__button--close {
-    background-color: #dc3545;
+    &:hover {
+      background-color: $white-color;
+      color: $button-blue-color;
+    }
+
+    &--close {
+    background-color: $button-red-color;
+
+    &:hover {
+      background-color: $white-color;
+      color: $button-red-color;
+    }
+  }
   }
 }

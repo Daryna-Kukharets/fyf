@@ -9,7 +9,9 @@ import { Participants } from "./pages/Participants/Participants";
 import { CreateActivity } from "./pages/CreateActivity/CreateActivity";
 import { Reviews } from "./components/Reviews/Reviews";
 import { CreateReviews } from "./pages/CreateReviews/CreateReviews";
-import { CookieFiles } from "./info/CookieFiles";
+import { CookieFiles } from "./Info/CookieFiles";
+import { PrivacyPolicy } from "./Info/PrivacyPolicy";
+import { TermsOfUse } from "./Info/TermsOfUse";
 
 export const router = createBrowserRouter(
   [
@@ -49,6 +51,14 @@ export const router = createBrowserRouter(
         {
           path: "cookieFiles",
           element: <CookieFiles />,
+        },
+        {
+          path: "privacyPolicy",
+          element: <PrivacyPolicy />,
+        },
+        {
+          path: "termsOfUse",
+          element: <TermsOfUse />,
         },
       ],
     },

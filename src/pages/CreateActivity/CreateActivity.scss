@@ -2,13 +2,24 @@
 
 .createActivity {
   padding-block: 32px;
-
+  
   @include container;
+
+  &__box {
+    @include on-desktop {
+      width: 680px;
+    }
+  }
 
   &__title {
     font-family: Lora, sans-serif;
     font-size: 36px;
     font-weight: 400;
     padding-top: 16px;
+
+    @include on-desktop {
+      font-size: 64px;
+      padding-top: 32px;
+    }
   }
 }

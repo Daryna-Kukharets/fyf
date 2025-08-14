@@ -18,6 +18,11 @@
     font-family: Lora, sans-serif;
     font-size: 36px;
     color: $grey-color;
+    transition: color $effect-duration ease;
+
+    &:hover {
+      color: $black-color;
+    }
 
     @include on-desktop {
       font-size: 64px;
