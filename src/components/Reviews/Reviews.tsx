@@ -81,7 +81,7 @@ export const Reviews = () => {
           <p className="reviews__count">{`${reviews.length} відгуків`}</p>
         </FadeIn>
       </div>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="reviews__error">{error}</p>}
       {loading ? (
         <SkeletonReviewCard />
       ) : (
