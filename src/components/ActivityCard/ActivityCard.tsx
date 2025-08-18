@@ -37,7 +37,8 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
   const tokenData = JSON.parse(localStorage.getItem("auth-storage") || "{}");
   const currentUserEmail = tokenData?.state?.user?.email;
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [isJoined, setIsJoined] = useState(() => {
     return activity.participants?.some((p) => p.email === currentUserEmail);
   });
@@ -48,7 +49,7 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const token = useAuthStore((state) => state.token);
   const isAuthenticated = Boolean(token);
 
@@ -63,22 +64,22 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
     minute: "2-digit",
   });
 
-
   const handleParticipate = async () => {
     if (!isAuthenticated) {
       setShowError(true);
       return;
     }
 
+    setButtonLoading(true);
+
     try {
-      setIsLoading(true);
       await participateInActivity(activity.id);
       setIsJoined(true);
       setCurrentParticipantsCount((prev) => prev + 1);
     } catch (error: any) {
       console.log("Не вдалося записатися: " + (error?.message || "помилка"));
     } finally {
-      setIsLoading(false);
+      setButtonLoading(true);
     }
   };
 
@@ -95,8 +96,9 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
   };
 
   const handleCancel = async () => {
+    setButtonLoading(true);
+
     try {
-      setIsLoading(true);
       await refuseActivity(activity.id);
       setIsJoined(false);
       setCurrentParticipantsCount((prev) => Math.max(prev - 1, 0)); // Зменшити кількість
@@ -106,7 +108,7 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
         "Не вдалося скасувати запис: " + (error?.message || "помилка")
       );
     } finally {
-      setIsLoading(false);
+      setButtonLoading(true);
     }
   };
 
@@ -114,18 +116,18 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
     const img = new Image();
 
     img.src = `img/activity/activity-${activity.imgId}.png`;
-    
+
     img.onload = () => {
-      setIsLoading(true);
-    }
+      setImageLoading(true);
+    };
 
     img.onerror = () => {
-      setIsLoading(true);
+      setImageLoading(true);
     };
   }, [activity.imgId]);
 
-  if(!isLoading) {
-    return <Loader />
+  if (!imageLoading) {
+    return <Loader />;
   }
 
   return (
@@ -209,27 +211,27 @@ export const ActivityCard: React.FC<Props> = ({ mode, activity, onCancel }) => {
               isJoined ? "activityCard__button--cancel" : ""
             }`}
             onClick={isJoined ? handleCancel : handleParticipate}
-            disabled={isLoading}
+            disabled={buttonLoading}
             title={
               !isAuthenticated
                 ? "Щоб створити активність, потрібно увійти"
                 : undefined
             }
           >
-            {isLoading
+            {buttonLoading
               ? "Завантаження..."
               : isJoined
-              ? "Скасувати запис"
-              : "Записатися"}
+                ? "Скасувати запис"
+                : "Записатися"}
           </button>
         ) : (
           <button
             type="button"
             onClick={() => onCancel?.(activity.id)}
-            disabled={isLoading}
+            disabled={buttonLoading}
             className="activityCard__button activityCard__button--cancel"
           >
-            {isLoading ? "Завантаження..." : "Скасувати запис"}
+            {buttonLoading ? "Завантаження..." : "Скасувати запис"}
           </button>
         )}
       </div>
